@@ -1,0 +1,16 @@
+{
+"languageserver": {
+  "lldb": {
+    "command": "clangd",
+    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+    "rootPatterns": ["compile_flags.txt", ".ccls", "compile_commands.json", ".git/", ".hg/"]
+  },
+  "prolog-lsp": {
+    "command": "swipl",
+    "args": ["-g", "use_module(library(lsp_server)).",
+             "-g", "lsp_server:main",
+             "-t", "halt"
+            ],
+    "filetypes": ["prolog", "pl"]
+  }
+}
