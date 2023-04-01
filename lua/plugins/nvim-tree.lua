@@ -39,3 +39,11 @@ nvimtree.setup({
 -- 	},
 })
 
+vim.keymap.set("n", "<leader>db", function() 
+        if require('nvim-tree.view').is_visible() then
+            vim.api.nvim_command(":bd | bp")
+        else
+            vim.api.nvim_command(":bd")
+        end
+    end
+)
