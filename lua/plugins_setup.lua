@@ -32,28 +32,28 @@ return packer.startup(function(use)
     use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
     --list of plugins
     --colorscheme
-    use('morhetz/gruvbox')
-    use('christoomey/vim-tmux-navigator')
+    use("morhetz/gruvbox")
+    use("christoomey/vim-tmux-navigator")
     --highlight yanks
-    use('machakann/vim-highlightedyank')
+    use("machakann/vim-highlightedyank")
     --markdown live preview
-    use('instant-markdown/vim-instant-markdown')
+    use("instant-markdown/vim-instant-markdown")
     --tex live preview
-    use('lervag/vimtex')
+    use("lervag/vimtex")
 
     --slick line at the bottom
     use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        "nvim-lualine/lualine.nvim",
+        requires = { "kyazdani42/nvim-web-devicons", opt = true }
     }
 
-    use('mfussenegger/nvim-dap')
+    use("mfussenegger/nvim-dap")
     use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
     --aligning 
-    use('junegunn/vim-easy-align')
+    use("junegunn/vim-easy-align")
     --to indent object selected
-    use('michaeljsmith/vim-indent-object')
-    use('lukas-reineke/indent-blankline.nvim')
+    use("michaeljsmith/vim-indent-object")
+    use("lukas-reineke/indent-blankline.nvim")
 
     --file browser
     use("nvim-tree/nvim-tree.lua")
@@ -62,27 +62,32 @@ return packer.startup(function(use)
 
     use("folke/which-key.nvim")
     --jumping between split screens
-    use('tpope/vim-surround')
-    --code completion
-    use {'neoclide/coc.nvim', branch = 'release'}
+    use("tpope/vim-surround")
     --better folds
-    use{'anuvyklack/pretty-fold.nvim', 
+    use{"anuvyklack/pretty-fold.nvim", 
        config = function()
-          require('pretty-fold').setup()
+          require("pretty-fold").setup()
        end
     }
-    use { 'anuvyklack/fold-preview.nvim',
-       requires = 'anuvyklack/keymap-amend.nvim',
+    use { "anuvyklack/fold-preview.nvim",
+       requires = "anuvyklack/keymap-amend.nvim",
        config = function()
-          require('fold-preview').setup()
+          require("fold-preview").setup()
        end
     }
+    --code completion
+    use("neovim/nvim-lspconfig")-- Configurations for Nvim LSP
+    use("hrsh7th/nvim-cmp")
+    use("hrsh7th/cmp-nvim-lsp")
+    use("hrsh7th/vim-vsnip")
+
 
     
     --fuzzy finder mainly
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
     
+    --file manager
     use({
         "nvim-treesitter/nvim-treesitter",
         commit = "408d088",
