@@ -92,6 +92,8 @@ nvim_lsp.rust_analyzer.setup {
     ['rust-analyzer'] = {},
   },
 }
+nvim_lsp.prolog_ls.setup{}
+
 vim.o.updatetime = 250
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 

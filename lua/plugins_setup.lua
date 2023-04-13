@@ -79,7 +79,14 @@ return packer.startup(function(use)
     use("neovim/nvim-lspconfig")-- Configurations for Nvim LSP
     use("hrsh7th/nvim-cmp")
     use("hrsh7th/cmp-nvim-lsp")
-    use("hrsh7th/vim-vsnip")
+    use("rafamadriz/friendly-snippets")
+    use({
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        tag = "v<CurrentMajor>.*",
+        -- install jsregexp (optional!:).
+        run = "make install_jsregexp"
+    })
 
 
     

@@ -29,7 +29,7 @@ keymap.set("n", "<leader>x", '"xp')
 keymap.set("v", "<leader>x", '"xy')
 
 keymap.set({"v", "o", "n"}, "<leader>e", "$")
---keymap.set({"v", "o", "n"}, "<leader>w", "^")
+keymap.set({"v", "o", "n"}, "<leader>w", "^")
 keymap.set({"v", "o", "n"}, "<leader>a", "^")
 
 
@@ -48,8 +48,8 @@ keymap.set("n", "<S-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap.set("n", "<S-l>", ":bnext<CR>", opts)
 keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
-keymap.set("n", "<leader>]", ":bnext<CR>") --  go to next tab
-keymap.set("n", "<leader>[", ":bprev<CR>") --  go to previous tab
+--keymap.set("n", "<leader>]", ":bnext<CR>") --  go to next tab
+--keymap.set("n", "<leader>[", ":bprev<CR>") --  go to previous tab
 
 
 -- Stay in indent mode
@@ -147,9 +147,25 @@ vim.keymap.set('n', '<A-down>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<A-right>', function() require('dap').step_into() end)
 vim.keymap.set('n', '<A-left>', function() require('dap').step_out() end)
 vim.keymap.set('n', 'ę', function() require('dapui').eval() end)
+vim.keymap.set('n', '†', function() require('dap').terminate() end)
 
 vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end)
 --vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)
 vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
 
 vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end)
+--==========
+--LuaSnip
+--==========
+vim.cmd [[
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" -1 for jumping backwards.
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+" For changing choices in choiceNodes (not strictly necessary for a basic setup).
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'jkk
+]]
