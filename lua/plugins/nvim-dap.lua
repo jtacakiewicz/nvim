@@ -1,4 +1,4 @@
-local dap, dapui = require('dap'),require("dapui")
+local dap, dapui = require('dap'), require("dapui")
 dap.listeners.after.event_initialized["dapui_config"]=function()
   dapui.open()
 end
@@ -8,16 +8,16 @@ end
 dap.listeners.before.event_exited["dapui_config"]=function()
   dapui.close()
 end
-dap.adapters.codelldb = {
-  type = 'server',
-  host = '127.0.0.1',
-  port = 13000 -- 💀 Use the port printed out or specified with `--port`
-}
+--dap.adapters.codelldb = {
+--  type = 'server',
+--  host = '127.0.0.1',
+--  port = 13000 -- 💀 Use the port printed out or specified with `--port`
+--}
 dap.adapters.codelldb = {
   type = 'server',
   port = "${port}",
   executable = {
-    command = '/Users/epi/.vscode/extensions/vadimcn.vscode-lldb-1.8.1/adapter/codelldb',
+    command = 'codelldb',
     args = {"--port", "${port}"},
   }
 }

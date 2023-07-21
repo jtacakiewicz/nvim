@@ -81,6 +81,13 @@ return packer.startup(function(use)
     use("neovim/nvim-lspconfig")-- Configurations for Nvim LSP
     use("hrsh7th/nvim-cmp")
     use("hrsh7th/cmp-nvim-lsp")
+
+    --easy lsp and dap servers
+    use ({
+        "williamboman/mason.nvim",
+        run = ":MasonUpdate" -- :MasonUpdate updates registry contents
+    })
+
     use("rafamadriz/friendly-snippets")
     use({
         "L3MON4D3/LuaSnip",
