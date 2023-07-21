@@ -35,7 +35,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
     callback = function()
@@ -92,7 +92,10 @@ nvim_lsp.rust_analyzer.setup {
     ['rust-analyzer'] = {},
   },
 }
-nvim_lsp.prolog_ls.setup{}
+nvim_lsp.prolog_ls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities
+}
 
 vim.o.updatetime = 250
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

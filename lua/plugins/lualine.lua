@@ -27,8 +27,8 @@ lualine.setup({
     tabline = 1000,            -- to maintain between refresh. It's not guarantied if situation
     winbar = 1000              -- arises that lualine needs to refresh itself before this time
   },
-  winbar = {
-      lualine_a = {'buffers'},
-    }
+  --winbar = {
+  --    lualine_a = {'buffers'},
+  --  }
 })
 

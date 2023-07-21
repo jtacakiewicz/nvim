@@ -23,6 +23,7 @@ opt.smartcase = true
 
 --cursorline
 opt.cursorline = true
+vim.g.neovide_cursor_trail_size = 0.1
 
 --appearance
 opt.termguicolors = true
@@ -60,7 +61,7 @@ end
 local autoCommands = {
     -- other autocommands
     open_folds = {
-        {"BufReadPost,FileReadPost", "*", "normal zR"}
+        {"FileReadPost", "*", "normal zR"}
     }
 }
 

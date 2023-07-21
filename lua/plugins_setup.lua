@@ -40,17 +40,19 @@ return packer.startup(function(use)
     use("instant-markdown/vim-instant-markdown")
     --tex live preview
     use("lervag/vimtex")
+    --math
+    use "jbyuki/quickmath.nvim"
 
     --slick line at the bottom
     use {
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons", opt = true }
     }
+    --slick line at the top
+    use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
     use("mfussenegger/nvim-dap")
     use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-    --aligning 
-    use("junegunn/vim-easy-align")
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
     use("lukas-reineke/indent-blankline.nvim")
@@ -88,6 +90,17 @@ return packer.startup(function(use)
         run = "make install_jsregexp"
     })
 
+    --animations
+    use({ 'echasnovski/mini.nvim', version = false})
+    require('mini.align').setup()
+    --require('mini.comment').setup()
+    --require('mini.animate').setup()
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 
     
     --fuzzy finder mainly
@@ -129,6 +142,13 @@ return packer.startup(function(use)
           "nvim-telescope/telescope.nvim"
         }
     })
+    use {
+      "princejoogie/chafa.nvim",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "m00qek/baleia.nvim"
+      },
+    }
     
 
     if packer_bootstrap then

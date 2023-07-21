@@ -38,6 +38,8 @@ keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
 keymap.set("n", "<leader>sx", ":close<CR>") -- close current split window
 keymap.set("n", "<leader>so", ":only<CR>") -- close current split window
+keymap.set("n", "<leader>s_", "<C-w>_") -- close current split window
+keymap.set("n", "<leader>s|", "<C-w>|") -- close current split window
 
 -- Resize with arrows
 keymap.set("n", "<S-Up>", ":resize -2<CR>", opts)
@@ -70,8 +72,8 @@ keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
 
 --easy-align
-keymap.set("x", "ga", ":EasyAlign<CR>")
-keymap.set("n", "ga", ":EasyAlign<CR>")
+--keymap.set("x", "ga", ":EasyAlign<CR>")
+--keymap.set("n", "ga", ":EasyAlign<CR>")
 
 --nvimtree
 keymap.set("n", "<leader>ntt", ":NvimTreeToggle<CR>")
@@ -85,11 +87,8 @@ keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available 
 
 vim.keymap.set("n", "<leader>db", 
 function() 
-    if require('nvim-tree.view').is_visible() then
-        vim.api.nvim_command(":bd | bp")
-    else
-        vim.api.nvim_command(":bd")
-    end
+    --if require('nvim-tree.view').is_visible() then
+    vim.api.nvim_command(":bp|bw #")
 end)
 
 keymap.set("v", "gc", function() 
@@ -142,6 +141,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --nvim dap
 --==========
 --alt as the 'debug key'
+
+vim.keymap.set('n', '<A-c>', function() require('dap').run_to_cursor() end)
 vim.keymap.set('n', '<A-CR>', function() require('dap').continue() end)
 vim.keymap.set('n', '<A-down>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<A-right>', function() require('dap').step_into() end)
@@ -157,7 +158,22 @@ vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end)
 --==========
 --LuaSnip
 --==========
-vim.cmd [[
+function leave_snippet()
+    if
+        ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+        and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+        and not require('luasnip').session.jump_active
+    then
+        require('luasnip').unlink_current()
+    end
+end
+
+-- stop snippets when you leave to normal mode
+vim.api.nvim_command([[
+autocmd ModeChanged * lua leave_snippet()
+]])
+
+vim.cmd([[
 imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
 " -1 for jumping backwards.
 inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
@@ -168,4 +184,4 @@ snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 " For changing choices in choiceNodes (not strictly necessary for a basic setup).
 imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'jkk
-]]
+]])
