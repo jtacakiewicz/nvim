@@ -2,7 +2,10 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
-keymap.set("n", "<leader>src", ":source $MYVIMRC<CR>")
+keymap.set("n", "<leader>src", ":e $HOME/.config/nvim <CR>")
+--undo being more reasonable
+keymap.set("n", "U", ":redo<CR>")
+
 keymap.set("i", "jj", "<ESC>")
 
 keymap.set("t", "<ESC>", "<C-\\><C-n>")
@@ -63,8 +66,9 @@ keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
-keymap.set("n", "∆",     ":m .+1<CR>==")
-keymap.set("n", "Ż",     ":m .-2<CR>==")
+--move lines
+keymap.set("n", "<A-j>",     ":m .+1<CR>==")
+keymap.set("n", "<A-k>",     ":m .-2<CR>==")
 keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
 keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
@@ -85,17 +89,11 @@ keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string u
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 
-vim.keymap.set("n", "<leader>db", 
-function() 
-    --if require('nvim-tree.view').is_visible() then
-    vim.api.nvim_command(":bp|bw #")
-end)
+vim.keymap.set("n", "<C-_>", 
+    function() 
+        vim.api.nvim_command(":bp|bd #")
+    end)
 
-keymap.set("v", "gc", function() 
-    if vim.api.nvim_buf_get_option(vim.api.nvim_get_current_buf(), "filetype") == "cpp" then
-    elseif vim.api.nvim_buf_get_option(vim.api.nvim_get_current_buf(), "filetype") == "lua" then
-    end
-end)
 
 
 --=====================
@@ -141,14 +139,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --nvim dap
 --==========
 --alt as the 'debug key'
-
 vim.keymap.set('n', '<A-c>', function() require('dap').run_to_cursor() end)
 vim.keymap.set('n', '<A-CR>', function() require('dap').continue() end)
 vim.keymap.set('n', '<A-down>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<A-right>', function() require('dap').step_into() end)
 vim.keymap.set('n', '<A-left>', function() require('dap').step_out() end)
-vim.keymap.set('n', 'ę', function() require('dapui').eval() end)
-vim.keymap.set('n', '†', function() require('dap').terminate() end)
+vim.keymap.set('n', '<A-e>', function() require('dapui').eval() end)
+vim.keymap.set('n', '<A-t>', function() require('dap').terminate() end)
 
 vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end)
 --vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)

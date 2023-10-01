@@ -37,7 +37,11 @@ return packer.startup(function(use)
     --highlight yanks
     use("machakann/vim-highlightedyank")
     --markdown live preview
-    use("instant-markdown/vim-instant-markdown")
+    --use("instant-markdown/vim-instant-markdown")
+    --obsidian integration
+    use({
+        "epwalsh/obsidian.nvim",
+    })
     --tex live preview
     use("lervag/vimtex")
     --math
