@@ -144,7 +144,14 @@ vim.keymap.set('n', '<A-CR>', function() require('dap').continue() end)
 vim.keymap.set('n', '<A-down>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<A-right>', function() require('dap').step_into() end)
 vim.keymap.set('n', '<A-left>', function() require('dap').step_out() end)
-vim.keymap.set('n', '<A-e>', function() require('dapui').eval() end)
+--either show diagnostic message or eval expression if debug session is active
+vim.keymap.set('n', '<A-e>', function() 
+        if require('dap').status() == "" then 
+            vim.diagnostic.open_float(nil, opts_)
+        else
+            require('dapui').eval()
+        end
+    end)
 vim.keymap.set('n', '<A-t>', function() require('dap').terminate() end)
 
 vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end)

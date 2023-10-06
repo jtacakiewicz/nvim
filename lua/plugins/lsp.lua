@@ -36,20 +36,20 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local opts_ = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = 'rounded',
-        source = 'always',
-        prefix = ' ',
-        scope = 'cursor',
-      }
-      vim.diagnostic.open_float(nil, opts_)
-    end
-  })
+  --vim.api.nvim_create_autocmd("CursorHold", {
+  --  buffer = bufnr,
+  --  callback = function()
+  --    local opts_ = {
+  --      focusable = false,
+  --      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+  --      border = 'rounded',
+  --      source = 'always',
+  --      prefix = ' ',
+  --      scope = 'cursor',
+  --    }
+  --    vim.diagnostic.open_float(nil, opts_)
+  --  end
+  --})
 end
 
 protocol.CompletionItemKind = {
@@ -97,8 +97,8 @@ nvim_lsp.prolog_ls.setup{
     capabilities = capabilities
 }
 
-vim.o.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+--vim.o.updatetime = 250
+--vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- Diagnostic symbols in the sign column (gutter)
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }

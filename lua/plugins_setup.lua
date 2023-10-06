@@ -83,8 +83,18 @@ return packer.startup(function(use)
     }
     --code completion
     use("neovim/nvim-lspconfig")-- Configurations for Nvim LSP
-    use("hrsh7th/nvim-cmp")
-    use("hrsh7th/cmp-nvim-lsp")
+    use{"hrsh7th/nvim-cmp",
+        requires = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lsp-signature-help",
+        }
+    }
+
+    --use {"ray-x/lsp_signature.nvim",
+    --   config = function()
+    --      require("lsp_signature").setup{}
+    --   end
+    --}
 
     --easy lsp and dap servers
     use ({
