@@ -36,7 +36,8 @@ opt.backspace = "indent,eol,start"
 local vim = vim
 local opt = vim.opt
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+--opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 
 vim.g.filetype_pl="prolog"

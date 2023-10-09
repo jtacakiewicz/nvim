@@ -84,8 +84,16 @@ nvim_lsp.clangd.setup{
     on_attach = on_attach,
     capabilities = capabilities
 }
-nvim_lsp.pyright.setup {}
-nvim_lsp.tsserver.setup {}
+nvim_lsp.pyright.setup{}
+nvim_lsp.tsserver.setup{}
+
+nvim_lsp.jdtls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities
+}
+
+
+
 nvim_lsp.rust_analyzer.setup {
   -- Server-specific settings. See `:help nvim_lsp-setup`
   settings = {
