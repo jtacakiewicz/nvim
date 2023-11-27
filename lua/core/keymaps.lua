@@ -45,10 +45,10 @@ keymap.set("n", "<leader>s_", "<C-w>_") -- close current split window
 keymap.set("n", "<leader>s|", "<C-w>|") -- close current split window
 
 -- Resize with arrows
-keymap.set("n", "<S-Up>", ":resize -2<CR>", opts)
-keymap.set("n", "<S-Down>", ":resize +2<CR>", opts)
-keymap.set("n", "<S-Left>", ":vertical resize -2<CR>", opts)
-keymap.set("n", "<S-Right>", ":vertical resize +2<CR>", opts)
+keymap.set("n", "<S-Up>",    function() require("tmux").resize_top() end,    opts)
+keymap.set("n", "<S-Down>",  function() require("tmux").resize_bottom() end,  opts)
+keymap.set("n", "<S-Left>",  function() require("tmux").resize_left() end,  opts)
+keymap.set("n", "<S-Right>", function() require("tmux").resize_right() end, opts)
 
 -- Navigate buffers
 keymap.set("n", "<S-l>", ":bnext<CR>", opts)
@@ -61,6 +61,7 @@ keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 -- Better terminal navigation
+
 keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
 keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
@@ -89,7 +90,7 @@ keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string u
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 
-vim.keymap.set("n", "<C-_>", 
+vim.keymap.set("n", "_", 
     function() 
         vim.api.nvim_command(":bp|bd #")
     end)
@@ -120,7 +121,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>fa', vim.lsp.buf.add_workspace_folder, opts)
     vim.keymap.set('n', '<leader>fr', vim.lsp.buf.remove_workspace_folder, opts)
     vim.keymap.set('n', '<leader>fl', function()
@@ -131,7 +132,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>fo', function()
-      vim.lsp.buf.format { async = true }
+        vim.lsp.buf.format { async = true }
     end, opts)
   end,
 })

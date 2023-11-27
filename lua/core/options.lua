@@ -29,6 +29,7 @@ vim.g.neovide_cursor_trail_size = 0.1
 opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
+opt.colorcolumn = "119"
 
 opt.backspace = "indent,eol,start"
 

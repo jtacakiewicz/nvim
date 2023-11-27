@@ -33,7 +33,9 @@ return packer.startup(function(use)
     --list of plugins
     --colorscheme
     use("morhetz/gruvbox")
-    use("christoomey/vim-tmux-navigator")
+    use({
+        "aserowy/tmux.nvim",
+    })
     --highlight yanks
     use("machakann/vim-highlightedyank")
     --markdown live preview
@@ -52,6 +54,10 @@ return packer.startup(function(use)
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons", opt = true }
     }
+    --file browser
+    use{"nvim-tree/nvim-tree.lua",
+        tag = "nightly",
+    }
     --slick line at the top
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
@@ -61,8 +67,6 @@ return packer.startup(function(use)
     use("michaeljsmith/vim-indent-object")
     use("lukas-reineke/indent-blankline.nvim")
 
-    --file browser
-    use("nvim-tree/nvim-tree.lua")
     --better icons
     use("kyazdani42/nvim-web-devicons")
 
@@ -129,40 +133,7 @@ return packer.startup(function(use)
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
     
     --file manager
-    use({
-        "nvim-treesitter/nvim-treesitter",
-        commit = "408d088",
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                -- ensure_installed = "maintained",
-                highlight = {
-                    enable = true,
-                },
-                indent = {
-                    enable = true,
-                },
-                playground = {
-                    enable = true,
-                    disable = {},
-                    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-                    persist_queries = false, -- Whether the query persists across vim sessions
-                },
-            })
-        end,
-    })
-    use({"jackMort/ChatGPT.nvim",
-        config = function()
-          require("chatgpt").setup({
-                welcome_message = "I know now why you cry, but it’s something I can never do."
-            -- optional configuration
-          })
-        end,
-        requires = {
-          "MunifTanjim/nui.nvim",
-          "nvim-lua/plenary.nvim",
-          "nvim-telescope/telescope.nvim"
-        }
-    })
+    use("nvim-treesitter/nvim-treesitter")
     use {
       "princejoogie/chafa.nvim",
       requires = {

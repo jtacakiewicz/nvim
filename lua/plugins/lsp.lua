@@ -82,8 +82,19 @@ protocol.CompletionItemKind = {
 
 nvim_lsp.clangd.setup{
     on_attach = on_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--clang-tidy",
+      "--header-insertion=iwyu",
+      "--completion-style=detailed",
+      "--function-arg-placeholders",
+      "--fallback-style=llvm",
+      "--header-insertion=never",
+    }
 }
+nvim_lsp.pyright.setup{}
 nvim_lsp.pyright.setup{}
 nvim_lsp.tsserver.setup{}
 
