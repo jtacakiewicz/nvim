@@ -95,8 +95,10 @@ nvim_lsp.clangd.setup{
     }
 }
 nvim_lsp.pyright.setup{}
-nvim_lsp.pyright.setup{}
 nvim_lsp.tsserver.setup{}
+nvim_lsp.lua_ls.setup{}
+nvim_lsp.r_language_server.setup{}
+nvim_lsp.gopls.setup{}
 
 nvim_lsp.jdtls.setup{
     on_attach = on_attach,
@@ -127,6 +129,7 @@ for type, icon in pairs(signs) do
 end
 
 vim.diagnostic.config({
+    single_file_support = true,
   virtual_text = false,
 --  virtual_text = {
 --    prefix = '●'

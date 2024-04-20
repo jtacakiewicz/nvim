@@ -5,13 +5,13 @@ if not status then
 end
 
 -- get lualine nightfly theme
-local lualine_nightfly = require("lualine.themes.gruvbox")
+local lualine_colorscheme = require("lualine.themes.nord")
 
 -- change nightlfy theme colors
 --lualine_nightfly.normal.a.bg = new_colors.blue
 --lualine_nightfly.insert.a.bg = new_colors.green
 --lualine_nightfly.visual.a.bg = new_colors.violet
-lualine_nightfly.command = {
+lualine_colorscheme.command = {
   a = {
     gui = "bold",
   },
@@ -20,7 +20,7 @@ lualine_nightfly.command = {
 -- configure lualine with modified theme
 lualine.setup({
   options = {
-    theme = lualine_nightfly,
+    theme = lualine_colorscheme,
   },
   refresh = {                  -- sets how often lualine should refreash it's contents (in ms)
     statusline = 1000,         -- The refresh option sets minimum time that lualine tries

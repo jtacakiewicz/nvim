@@ -33,21 +33,21 @@ return packer.startup(function(use)
     --list of plugins
     --colorscheme
     use("morhetz/gruvbox")
-    use({
-        "aserowy/tmux.nvim",
-    })
+    use("nordtheme/vim")
+    use("shrikecode/kyotonight.vim")
+    use("aserowy/tmux.nvim")
+    --better escape mapping
+    use{'jdhao/better-escape.vim', event = 'InsertEnter'}
     --highlight yanks
     use("machakann/vim-highlightedyank")
     --markdown live preview
     --use("instant-markdown/vim-instant-markdown")
     --obsidian integration
-    use({
-        "epwalsh/obsidian.nvim",
-    })
+    use("epwalsh/obsidian.nvim")
     --tex live preview
     use("lervag/vimtex")
     --math
-    use "jbyuki/quickmath.nvim"
+    use("jbyuki/quickmath.nvim")
 
     --slick line at the bottom
     use {
@@ -71,10 +71,20 @@ return packer.startup(function(use)
     use("kyazdani42/nvim-web-devicons")
 
     use("folke/which-key.nvim")
+    use {"folke/noice.nvim",
+        requires = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
+        }
+    }
     --jumping between split screens
     use("tpope/vim-surround")
     --better folds
-    use{"anuvyklack/pretty-fold.nvim", 
+    use{"anuvyklack/pretty-fold.nvim",
        config = function()
           require("pretty-fold").setup()
        end
@@ -86,7 +96,6 @@ return packer.startup(function(use)
        end
     }
     --code completion
-    use("neovim/nvim-lspconfig")-- Configurations for Nvim LSP
     use{"hrsh7th/nvim-cmp",
         requires = {
             "hrsh7th/cmp-nvim-lsp",
@@ -101,10 +110,11 @@ return packer.startup(function(use)
     --}
 
     --easy lsp and dap servers
-    use ({
+    use {
         "williamboman/mason.nvim",
-        run = ":MasonUpdate" -- :MasonUpdate updates registry contents
-    })
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+    }
 
     use("rafamadriz/friendly-snippets")
     use({
@@ -127,21 +137,25 @@ return packer.startup(function(use)
         end
     }
 
-    
+
     --fuzzy finder mainly
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
-    
+
     --file manager
     use("nvim-treesitter/nvim-treesitter")
     use {
-      "princejoogie/chafa.nvim",
-      requires = {
+    "princejoogie/chafa.nvim",
+    requires = {
         "nvim-lua/plenary.nvim",
         "m00qek/baleia.nvim"
-      },
+    },
     }
-    
+    use {'stevearc/oil.nvim',
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    }
 
     if packer_bootstrap then
     require("packer").sync()
