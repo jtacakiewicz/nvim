@@ -32,69 +32,34 @@ return packer.startup(function(use)
     use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
     --list of plugins
     --colorscheme
-    use("morhetz/gruvbox")
-    use("nordtheme/vim")
-    use("shrikecode/kyotonight.vim")
+    --discard
+    use("gbprod/nord.nvim")
+
+    --tmux yank and movement
     use("aserowy/tmux.nvim")
     --better escape mapping
     use{'jdhao/better-escape.vim', event = 'InsertEnter'}
     --highlight yanks
     use("machakann/vim-highlightedyank")
-    --markdown live preview
-    --use("instant-markdown/vim-instant-markdown")
-    --obsidian integration
-    use("epwalsh/obsidian.nvim")
-    --tex live preview
-    use("lervag/vimtex")
-    --math
-    use("jbyuki/quickmath.nvim")
 
     --slick line at the bottom
     use {
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons", opt = true }
     }
-    --file browser
-    use{"nvim-tree/nvim-tree.lua",
-        tag = "nightly",
-    }
     --slick line at the top
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
+    use{'nvim-neotest/nvim-nio'}
     use("mfussenegger/nvim-dap")
     use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
-    use("lukas-reineke/indent-blankline.nvim")
 
     --better icons
     use("kyazdani42/nvim-web-devicons")
 
-    use("folke/which-key.nvim")
-    use {"folke/noice.nvim",
-        requires = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-            "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify",
-        }
-    }
-    --jumping between split screens
     use("tpope/vim-surround")
-    --better folds
-    use{"anuvyklack/pretty-fold.nvim",
-       config = function()
-          require("pretty-fold").setup()
-       end
-    }
-    use { "anuvyklack/fold-preview.nvim",
-       requires = "anuvyklack/keymap-amend.nvim",
-       config = function()
-          require("fold-preview").setup()
-       end
-    }
     --code completion
     use{"hrsh7th/nvim-cmp",
         requires = {
@@ -116,7 +81,6 @@ return packer.startup(function(use)
         "neovim/nvim-lspconfig",
     }
 
-    use("rafamadriz/friendly-snippets")
     use({
         "L3MON4D3/LuaSnip",
         -- follow latest release.
@@ -125,7 +89,6 @@ return packer.startup(function(use)
         run = "make install_jsregexp"
     })
 
-    --animations
     use({ 'echasnovski/mini.nvim', version = false})
     require('mini.align').setup()
     --require('mini.comment').setup()
@@ -139,18 +102,11 @@ return packer.startup(function(use)
 
 
     --fuzzy finder mainly
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
-    use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
+    use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } -- dependency for better sorting performance
+    use { "nvim-telescope/telescope.nvim", branch = "0.1.x" } -- fuzzy finder
 
     --file manager
-    use("nvim-treesitter/nvim-treesitter")
-    use {
-    "princejoogie/chafa.nvim",
-    requires = {
-        "nvim-lua/plenary.nvim",
-        "m00qek/baleia.nvim"
-    },
-    }
+    use ("nvim-treesitter/nvim-treesitter")
     use {'stevearc/oil.nvim',
         opts = {},
         -- Optional dependencies
