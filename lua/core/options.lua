@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+opt.showmode = false
 --line numbers
 opt.relativenumber = true
 opt.number = true
@@ -35,14 +36,16 @@ opt.backspace = "indent,eol,start"
 
 --folds
 local vim = vim
-local opt = vim.opt
 opt.foldmethod = "expr"
 --opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+function _G.MyFoldText()
+  return vim.fn.getline(vim.v.foldstart)
+end
+opt.foldtext = 'v:lua.MyFoldText()'
 
 
 vim.g.filetype_pl="prolog"
-local vim = vim
 local api = vim.api
 local M = {}
 -- function to create a list of commands and convert them to autocommands
@@ -68,9 +71,6 @@ local autoCommands = {
 }
 
 M.nvim_create_augroups(autoCommands)
-
---clipboard
---opt.clipboard:append("unnamedplus")
 
 --mouse
 local status, _ = pcall(vim.cmd, [[
