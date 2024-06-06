@@ -34,25 +34,16 @@ keymap.set("n", "<leader>x", '"xp', { desc = "paste from x register" })
 -- keymap.set("n", "<leader>s_", "<C-w>_", { desc = "max the height of split" })
 -- keymap.set("n", "<leader>s|", "<C-w>|", { desc = "max the width of split" })
 
--- Resize with arrows
-keymap.set("n", "<S-Up>",    function() require("tmux").resize_top() end,    { desc = "resize split windows/split tmux windows" })
-keymap.set("n", "<S-Down>",  function() require("tmux").resize_bottom() end, { desc = "resize split windows/split tmux windows" })
-keymap.set("n", "<S-Left>",  function() require("tmux").resize_left() end,   { desc = "resize split windows/split tmux windows" })
-keymap.set("n", "<S-Right>", function() require("tmux").resize_right() end,  { desc = "resize split windows/split tmux windows" })
-
-keymap.set("n", "<leader>oo", function() require("oil").open(require("oil").get_current_dir()) end, { desc = "opens oil.nvim"} )
-
 -- Navigate buffers
 keymap.set("n", "<S-l>", ":bnext<CR>", {desc = "switch to next buffer"} )
 keymap.set("n", "<S-h>", ":bprevious<CR>", {desc = "switch to prev buffer"} )
---keymap.set("n", "<leader>]", ":bnext<CR>") --  go to next tab
---keymap.set("n", "<leader>[", ":bprev<CR>") --  go to previous tab
-
+--delete buffers
+vim.keymap.set("n", "_", function()  vim.cmd("bp|bd #") end, {desc = "delete buffer and switch to prev"} )
+vim.keymap.set("n", "<C-_>", function()  vim.cmd("bp|bd! #") end, {desc = "delete buffer and switch to prev"} )
 
 -- Stay in indent mode
 keymap.set("v", "<", "<gv", {desc = "shift text left"} )
 keymap.set("v", ">", ">gv", {desc = "shift text right"} )
--- Better terminal navigation
 
 --move lines
 keymap.set("n", "<A-j>", ":m .+1<CR>==",        {desc = "move line down"} )
@@ -61,24 +52,6 @@ keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", {desc = "move line down"} )
 keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", {desc = "move line up"} )
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv",    {desc = "move line down"} )
 keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv",    {desc = "move line up"} )
-
-
---easy-align
---keymap.set("x", "ga", ":EasyAlign<CR>")
---keymap.set("n", "ga", ":EasyAlign<CR>")
-
---nvimtree
-keymap.set("n", "<leader>ntt", function() vim.cmd("NvimTreeToggle") end, {desc = "toggle nvim-tree" })
-
---telescope
-keymap.set("n", "<leader>ff", function() vim.cmd("Telescope find_files") end) -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fs", function() vim.cmd("Telescope live_grep") end) -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", function() vim.cmd("Telescope grep_string") end) -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", function() vim.cmd("Telescope buffers") end) -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", function() vim.cmd("Telescope help_tags") end) -- list available help tags
-
-vim.keymap.set("n", "_", function()  vim.cmd("bp|bd #") end, {desc = "delete buffer and switch to prev"} )
-
 
 --=====================
 --nvim lsp
@@ -135,36 +108,54 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --nvim dap
 --==========
 --alt as the 'debug key'
-vim.keymap.set('n', '<A-c>', function() require('dap').run_to_cursor() end)
-vim.keymap.set('n', '<A-CR>', function() require('dap').continue() end)
-vim.keymap.set('n', '<A-down>', function() require('dap').step_over() end)
-vim.keymap.set('n', '<A-right>', function() require('dap').step_into() end)
-vim.keymap.set('n', '<A-left>', function() require('dap').step_out() end)
+local dapsetup, dap = pcall(require, 'dap')
+local dapuisetup, dapui = pcall(require, 'dapui')
+
+if dapsetup then
+keymap.set('n', '<A-c>', function()     dap.run_to_cursor() end)
+keymap.set('n', '<A-CR>', function()    dap.continue() end)
+keymap.set('n', '<A-down>', function()  dap.step_over() end)
+keymap.set('n', '<A-right>', function() dap.step_into() end)
+keymap.set('n', '<A-left>', function()  dap.step_out() end)
+
+keymap.set('n', '<A-t>', function() dap.terminate() end)
+keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end, {desc = "sets a breakpoint" })
+keymap.set('n', '<leader>B', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, {desc = "sets a logging breakpint"})
+end
 --either show diagnostic message or eval expression if debug session is active
-vim.keymap.set('n', '<A-e>', function()
-        if require('dap').status() == "" then
-            vim.diagnostic.open_float(nil, opts)
+if dapuisetup then
+keymap.set('n', '<A-e>', function()
+        if dap.status() == "" then
+            vim.diagnostic.open_float(nil, vim.opts)
         else
-            require('dapui').eval()
+            dapui.eval()
         end
     end)
-vim.keymap.set('n', '<A-t>', function() require('dap').terminate() end)
-
-vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end, {desc = "sets a breakpoint" })
---vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)
-vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, {desc = "sets a logging breakpint"})
-
-vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end, {desc = "toggle dapui gui"})
+keymap.set('n', '<leader>du', function() dapui.toggle() end, {desc = "toggle dapui gui"})
+end
+--==========
+--Telescope
+--==========
+local telescopesetup, telescope = pcall(require, 'telescope.builtin')
+if telescopesetup then
+keymap.set("n", "<leader>ff", function() telescope.find_files() end) -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>fs", function() telescope.live_grep() end) -- find string in current working directory as you type
+keymap.set("n", "<leader>fc", function() telescope.grep_string() end) -- find string under cursor in current working directory
+keymap.set("n", "<leader>fb", function() telescope.buffers() end) -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fh", function() telescope.help_tags() end) -- list available help tags
+end
 --==========
 --LuaSnip
 --==========
+local luasnipsetup, luasnip = pcall( require, 'luasnip' )
+if luasnipsetup then
 function leave_snippet()
     if
         ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
-        and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
-        and not require('luasnip').session.jump_active
+        and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
+        and not luasnip.session.jump_active
     then
-        require('luasnip').unlink_current()
+        luasnip.unlink_current()
     end
 end
 
@@ -173,20 +164,49 @@ vim.api.nvim_command([[
 autocmd ModeChanged * lua leave_snippet()
 ]])
 
-local status, _ = require("luasnip")
-if(status) then
-    vim.keymap.set({"i", "s"}, "<Tab>", function()
-        if(require("luasnip").expand_or_jumpable()) then
-            require("luasnip").expand_or_jump()
-        else
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-        end
-    end, {silent = true})
-    vim.keymap.set({"i", "s"}, "<S-Tab>", function() require("luasnip").jump(-1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<Tab>", function()
+    if(luasnip.expand_or_jumpable()) then
+        luasnip.expand_or_jump()
+    else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+    end
+end, {silent = true})
+vim.keymap.set({"i", "s"}, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
 
-    vim.keymap.set({"i", "s"}, "<C-E>", function()
-        if require("luasnip").choice_active() then
-            require("luasnip").change_choice(1)
-        end
-    end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-E>", function()
+    if luasnip.choice_active() then
+        luasnip.change_choice(1)
+    end
+end, {silent = true})
+
+end
+--=====================
+--tmux
+--=====================
+local tmuxsetup, tmux = pcall( require, "tmux" )
+if tmuxsetup then
+keymap.set("n", "<S-Up>",    function() tmux.resize_top() end,    { desc = "resize split windows/split tmux windows" })
+keymap.set("n", "<S-Down>",  function() tmux.resize_bottom() end, { desc = "resize split windows/split tmux windows" })
+keymap.set("n", "<S-Left>",  function() tmux.resize_left() end,   { desc = "resize split windows/split tmux windows" })
+keymap.set("n", "<S-Right>", function() tmux.resize_right() end,  { desc = "resize split windows/split tmux windows" })
+else
+keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true})
+keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true})
+keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true})
+keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true})
+
+keymap.set("n", "<S-Up>",    "1<C-w>+", { noremap = true, silent = true})
+keymap.set("n", "<S-Down>",  "1<C-w>-", { noremap = true, silent = true})
+keymap.set("n", "<S-Left>",  "1<C-w><", { noremap = true, silent = true})
+keymap.set("n", "<S-Right>", "1<C-w>>", { noremap = true, silent = true})
+end
+--=====================
+--oil 
+--=====================
+local oilsetup, oil = pcall(require, "oil")
+
+if not oilsetup then
+keymap.set("n", "<leader>oo", function() oil.open(oil.get_current_dir()) end, { desc = "opens oil.nvim"} )
+else
+keymap.set("n", "<leader>oo", function() vim.cmd("e .") end, { desc = "open file explorer"} )
 end
