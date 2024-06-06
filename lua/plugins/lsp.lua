@@ -1,6 +1,9 @@
 -- Setup language servers.
 local status, nvim_lsp = pcall(require, "lspconfig")
-if (not status) then return end
+if (not status) then
+    print "lspconfig not available"
+    return
+end
 
 local protocol = require('vim.lsp.protocol')
 -- Set up completion using nvim_cmp with LSP source
@@ -99,6 +102,7 @@ nvim_lsp.tsserver.setup{}
 nvim_lsp.lua_ls.setup{}
 nvim_lsp.r_language_server.setup{}
 nvim_lsp.gopls.setup{}
+nvim_lsp.sqls.setup{}
 
 nvim_lsp.jdtls.setup{
     on_attach = on_attach,

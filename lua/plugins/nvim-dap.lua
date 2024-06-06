@@ -1,4 +1,14 @@
-local dap, dapui = require('dap'), require("dapui")
+local status, dap = pcall(require, 'dap')
+if not status then
+    print "dap not available"
+    return
+end
+local statusui, dapui = pcall(require, 'dapui')
+if not statusui then
+    print "dapui not available"
+    return
+end
+
 dap.listeners.after.event_initialized["dapui_config"]=function()
   dapui.open()
 end

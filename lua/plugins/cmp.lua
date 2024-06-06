@@ -1,4 +1,8 @@
-local cmp = require'cmp'
+local status, cmp = pcall(require, 'cmp')
+if not status then
+    print "nvim cmp not available"
+    return
+end
 
   cmp.setup({
     snippet = {
