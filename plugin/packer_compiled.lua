@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/epi/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/epi/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/Users/epi/.cache/nvim/packer_hererocks/2.1.1725453128/share/lua/5.1/?.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.1725453128/share/lua/5.1/?/init.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.1725453128/lib/luarocks/rocks-5.1/?.lua;/Users/epi/.cache/nvim/packer_hererocks/2.1.1725453128/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/epi/.cache/nvim/packer_hererocks/2.1.1725453128/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,14 +74,7 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["CodeGPT.nvim"] = {
-    config = { "\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19codegpt.config\frequire\0" },
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/CodeGPT.nvim",
-    url = "https://github.com/dpayne/CodeGPT.nvim"
-  },
   ["Comment.nvim"] = {
-    config = { "\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0" },
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
@@ -90,11 +83,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
-  },
-  ["baleia.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/baleia.nvim",
-    url = "https://github.com/m00qek/baleia.nvim"
   },
   ["better-escape.vim"] = {
     loaded = false,
@@ -108,11 +96,6 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
-  ["chafa.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/chafa.nvim",
-    url = "https://github.com/princejoogie/chafa.nvim"
-  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
@@ -123,41 +106,15 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
   },
-  ["fold-preview.nvim"] = {
-    config = { "\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17fold-preview\frequire\0" },
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/fold-preview.nvim",
-    url = "https://github.com/anuvyklack/fold-preview.nvim"
-  },
-  ["friendly-snippets"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/friendly-snippets",
-    url = "https://github.com/rafamadriz/friendly-snippets"
-  },
-  gruvbox = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/gruvbox",
-    url = "https://github.com/morhetz/gruvbox"
-  },
-  ["indent-blankline.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
-    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
-  },
-  ["keymap-amend.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/keymap-amend.nvim",
-    url = "https://github.com/anuvyklack/keymap-amend.nvim"
-  },
-  ["kyotonight.vim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/kyotonight.vim",
-    url = "https://github.com/shrikecode/kyotonight.vim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["markdown-preview.nvim"] = {
+    loaded = true,
+    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
+    url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -174,15 +131,10 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/mini.nvim",
     url = "https://github.com/echasnovski/mini.nvim"
   },
-  ["noice.nvim"] = {
+  ["nord.nvim"] = {
     loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/noice.nvim",
-    url = "https://github.com/folke/noice.nvim"
-  },
-  ["nui.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nui.nvim",
-    url = "https://github.com/MunifTanjim/nui.nvim"
+    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nord.nvim",
+    url = "https://github.com/gbprod/nord.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -204,15 +156,10 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
-  ["nvim-notify"] = {
+  ["nvim-nio"] = {
     loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nvim-notify",
-    url = "https://github.com/rcarriga/nvim-notify"
-  },
-  ["nvim-tree.lua"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
-    url = "https://github.com/nvim-tree/nvim-tree.lua"
+    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/nvim-nio",
+    url = "https://github.com/nvim-neotest/nvim-nio"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -244,21 +191,15 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
-  ["pretty-fold.nvim"] = {
-    config = { "\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\16pretty-fold\frequire\0" },
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/pretty-fold.nvim",
-    url = "https://github.com/anuvyklack/pretty-fold.nvim"
-  },
-  ["quickmath.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/quickmath.nvim",
-    url = "https://github.com/jbyuki/quickmath.nvim"
-  },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
     url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+  },
+  ["telescope-undo.nvim"] = {
+    loaded = true,
+    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/telescope-undo.nvim",
+    url = "https://github.com/debugloop/telescope-undo.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -270,11 +211,6 @@ _G.packer_plugins = {
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/tmux.nvim",
     url = "https://github.com/aserowy/tmux.nvim"
   },
-  vim = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/vim",
-    url = "https://github.com/nordtheme/vim"
-  },
   ["vim-highlightedyank"] = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/vim-highlightedyank",
@@ -284,41 +220,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/epi/.local/share/nvim/site/pack/packer/start/vim-indent-object",
     url = "https://github.com/michaeljsmith/vim-indent-object"
-  },
-  ["vim-surround"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/vim-surround",
-    url = "https://github.com/tpope/vim-surround"
-  },
-  vimtex = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/vimtex",
-    url = "https://github.com/lervag/vimtex"
-  },
-  ["which-key.nvim"] = {
-    loaded = true,
-    path = "/Users/epi/.local/share/nvim/site/pack/packer/start/which-key.nvim",
-    url = "https://github.com/folke/which-key.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: fold-preview.nvim
-time([[Config for fold-preview.nvim]], true)
-try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17fold-preview\frequire\0", "config", "fold-preview.nvim")
-time([[Config for fold-preview.nvim]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
-time([[Config for Comment.nvim]], false)
--- Config for: CodeGPT.nvim
-time([[Config for CodeGPT.nvim]], true)
-try_loadstring("\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19codegpt.config\frequire\0", "config", "CodeGPT.nvim")
-time([[Config for CodeGPT.nvim]], false)
--- Config for: pretty-fold.nvim
-time([[Config for pretty-fold.nvim]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\16pretty-fold\frequire\0", "config", "pretty-fold.nvim")
-time([[Config for pretty-fold.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
