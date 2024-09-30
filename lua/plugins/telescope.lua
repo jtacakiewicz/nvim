@@ -4,6 +4,7 @@ if not setup then
     return
 end
 
+telescope.load_extension("undo")
 -- import telescope actions safely
 local actions_setup, actions = pcall(require, "telescope.actions")
 if not actions_setup then
