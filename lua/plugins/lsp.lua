@@ -7,9 +7,10 @@ end
 
 local protocol = require('vim.lsp.protocol')
 -- Set up completion using nvim_cmp with LSP source
-local capabilities = require('cmp_nvim_lsp').default_capabilities(
+local cap_status, capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
+if not cap_status then return end
 
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
@@ -98,26 +99,13 @@ nvim_lsp.clangd.setup{
     }
 }
 nvim_lsp.pyright.setup{}
-nvim_lsp.tsserver.setup{}
+nvim_lsp.ts_ls.setup{}
 nvim_lsp.lua_ls.setup{}
 nvim_lsp.r_language_server.setup{}
 nvim_lsp.gopls.setup{}
 nvim_lsp.sqls.setup{}
-
+nvim_lsp.rust_analyzer.setup {}
 nvim_lsp.jdtls.setup{
-    on_attach = on_attach,
-    capabilities = capabilities
-}
-
-
-
-nvim_lsp.rust_analyzer.setup {
-  -- Server-specific settings. See `:help nvim_lsp-setup`
-  settings = {
-    ['rust-analyzer'] = {},
-  },
-}
-nvim_lsp.prolog_ls.setup{
     on_attach = on_attach,
     capabilities = capabilities
 }
