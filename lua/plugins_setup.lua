@@ -1,4 +1,4 @@
--- auto install packer if not installed
+-- auto install packer if not installedmini
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -16,7 +16,7 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 vim.cmd([[ 
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins-setup.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins_setup.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -31,12 +31,13 @@ return packer.startup(function(use)
     use("wbthomason/packer.nvim")
     use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
     --list of plugins
+
     --colorscheme
-    --discard
     use("gbprod/nord.nvim")
 
     --tmux yank and movement
     use("aserowy/tmux.nvim")
+
     --better escape mapping
     use{'jdhao/better-escape.vim', event = 'InsertEnter'}
     --highlight yanks
@@ -51,15 +52,15 @@ return packer.startup(function(use)
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
     use{'nvim-neotest/nvim-nio'}
-    use("mfussenegger/nvim-dap")
-    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+    use{"mfussenegger/nvim-dap"}
+    use{"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
 
     --better icons
     use("kyazdani42/nvim-web-devicons")
 
-    use("tpope/vim-surround")
+    -- use("tpope/vim-surround")
     --code completion
     use{"hrsh7th/nvim-cmp",
         requires = {
@@ -81,39 +82,62 @@ return packer.startup(function(use)
         "neovim/nvim-lspconfig",
     }
 
-    use({
+    use{
         "L3MON4D3/LuaSnip",
         -- follow latest release.
         tag = "v<CurrentMajor>.*",
         -- install jsregexp (optional!:).
         run = "make install_jsregexp"
-    })
-
-    use({ 'echasnovski/mini.nvim', version = false})
-    require('mini.align').setup()
-    --require('mini.comment').setup()
-    --require('mini.animate').setup()
-    use {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
     }
 
+    use{ 'echasnovski/mini.nvim', version = false}
+
+    use{ 'numToStr/Comment.nvim'}
+
+
+    --notetaking
+    use {
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    }
+    use {
+        "epwalsh/obsidian.nvim",
+        tag = "*",  -- recommended, use latest release instead of latest commit
+        requires = {
+            "nvim-lua/plenary.nvim",
+        },
+    }
 
     --fuzzy finder mainly
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } -- dependency for better sorting performance
     use { "nvim-telescope/telescope.nvim", branch = "0.1.x" } -- fuzzy finder
+    use { "nvim-telescope/telescope.nvim", branch = "0.1.x" } -- fuzzy finder
+    use { "debugloop/telescope-undo.nvim" }
 
     --file manager
     use ("nvim-treesitter/nvim-treesitter")
     use {'stevearc/oil.nvim',
-        opts = {},
-        -- Optional dependencies
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        requires = { "nvim-tree/nvim-web-devicons" },
     }
+    --leetcode
+    -- use {
+    --     "kawre/leetcode.nvim",
+    --     build = ":TSUpdate html",
+    --     requires = {
+    --         "nvim-telescope/telescope.nvim",
+    --         "nvim-lua/plenary.nvim", -- required by telescope
+    --         "MunifTanjim/nui.nvim",
+    --
+    --         -- optional
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "nvim-tree/nvim-web-devicons",
+    --     },
+    --     opts = {
+    --         -- configuration goes here
+    --     },
+    -- }
 
     if packer_bootstrap then
-    require("packer").sync()
+    packer.sync()
   end
 end)
