@@ -14,7 +14,7 @@ opt.autoindent=true
 opt.fileformat=unix
 
 --wrap
-opt.wrap = false
+opt.wrap = true 
 --open all folds
 opt.foldlevel=99
 
