@@ -79,6 +79,7 @@ return packer.startup(function(use)
     use {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
         "neovim/nvim-lspconfig",
     }
 
@@ -114,8 +115,14 @@ return packer.startup(function(use)
     use { "nvim-telescope/telescope.nvim", branch = "0.1.x" } -- fuzzy finder
     use { "debugloop/telescope-undo.nvim" }
 
-    --file manager
+
     use ("nvim-treesitter/nvim-treesitter")
+    use {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+    }
+    --file manager
     use {'stevearc/oil.nvim',
         requires = { "nvim-tree/nvim-web-devicons" },
     }
@@ -136,6 +143,10 @@ return packer.startup(function(use)
     --         -- configuration goes here
     --     },
     -- }
+    --colorscheme
+    use {"m4xshen/hardtime.nvim",
+        requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    }
 
     if packer_bootstrap then
     packer.sync()
