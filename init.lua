@@ -1,12 +1,13 @@
 local plugins_setup, _ = require("plugins_setup")
 
-require("core.options")
 require("core.keymaps")
+require("core.options")
 require("core.colorscheme")
 
 if plugins_setup then
 require("plugins.bufferline")
 require("plugins.lualine")
+require("plugins.gitsigns")
 require("plugins.telescope")
 require("plugins.mason")
 require("plugins.nvim-dap")
@@ -20,5 +21,5 @@ require("plugins.mini")
 require("plugins.comment")
 require("plugins.obsidian")
 -- require("plugins.leetcode")
--- require("plugins.hardtime")
+require("plugins.hardtime")
 end

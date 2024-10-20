@@ -95,6 +95,8 @@ return packer.startup(function(use)
 
     use{ 'numToStr/Comment.nvim'}
 
+    use {'lewis6991/gitsigns.nvim'}
+
 
     --notetaking
     use {

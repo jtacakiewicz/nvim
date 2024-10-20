@@ -17,7 +17,7 @@ keymap.set({ "v", "o", "n" }, "x", '"_x', { desc = "x no longer adds to register
 keymap.set("n", "<leader>+", "<C-a>", { desc = "add one to numeric value" })
 keymap.set("n", "<leader>-", "<C-x>", { desc = "sub one to numeric value" })
 
-keymap.set({ "v", "o", "n" }, "<leader>c", '"*', { desc = "access clipboard register" })
+-- keymap.set({ "v", "o", "n" }, "<leader>c", '"*', { desc = "access clipboard register" })
 keymap.set({ "v", "n" }, "<leader>y", '"+y', { desc = "yank to clipboard" })
 keymap.set({ "v", "n" }, "<leader>p", '"+p', { desc = "paste from clipboard" })
 --premage keymaps for 2 registers
@@ -55,15 +55,18 @@ keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "move line up" })
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "move line down" })
 keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "move line up" })
 
+keymap.set("n", "<leader>o", "o<Esc>k", {desc = "insert line below without exiting normal mode"});
+
 --=====================
 --nvim lsp
 --=====================
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set('n', '<leader>od', vim.diagnostic.open_float, { desc = "opens diagnostic floating window" })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "goes to prev diagnostic" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "goest to next diagnostic" })
-vim.keymap.set('n', '<leader>ld', vim.diagnostic.setqflist, { desc = "lists diagnosic locations" })
+keymap.set('n', '<leader>e',  vim.diagnostic.open_float, { desc = "opens diagnostic floating window" } )
+keymap.set('n', '<leader>od', vim.diagnostic.open_float, { desc = "opens diagnostic floating window" })
+keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "goes to prev diagnostic" })
+keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "goest to next diagnostic" })
+keymap.set('n', '<leader>ld', vim.diagnostic.setqflist, { desc = "lists diagnosic locations" })
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current bufferf
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -71,6 +74,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         -- Enable completion triggered by <c-x><c-o>
         --vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        --fix cmp for commands
+        vim.keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -126,18 +131,10 @@ if dapsetup then
     keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end, { desc = "sets a breakpoint" })
     keymap.set('n', '<leader>B', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
         { desc = "sets a logging breakpint" })
-end
---either show diagnostic message or eval expression if debug session is active
-if dapuisetup then
-    keymap.set('n', '<A-e>', function()
-        if dap.status() == "" then
-            vim.diagnostic.open_float(nil, vim.opts)
-        else
-            dapui.eval()
-        end
-    end)
+    keymap.set('n', '<A-e>', function() dapui.eval() end)
     keymap.set('n', '<leader>du', function() dapui.toggle() end, { desc = "toggle dapui gui" })
 end
+--either show diagnostic message or eval expression if debug session is active
 --==========
 --Telescope
 --==========
@@ -237,4 +234,8 @@ if obssetup then
     keymap.set("n", "<leader>np", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image" })
     keymap.set("n", "<leader>nr", "<cmd>ObsidianRename<cr>", { desc = "Obsidian Rename current note" })
     keymap.set("n", "<leader>nt", "<cmd>ObsidianTemplate<cr>", { desc = "Insert Obsidian Template into file" })
+end
+local gitsignssetup, gitsigns = pcall(require, "gitsigns")
+if gitsignssetup then
+    keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "show git hunk diff"} );
 end
