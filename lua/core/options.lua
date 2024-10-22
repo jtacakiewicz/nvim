@@ -72,11 +72,11 @@ local autoCommands = {
 
 M.nvim_create_augroups(autoCommands)
 
-vim.api.nvim_create_autocmd("VimEnter", {
-    callback = function()
-        require('telescope.builtin').find_files()
-    end
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--     callback = function()
+--         require('telescope.builtin').find_files()
+--     end
+-- })
 
 --mouse
 local status, _ = pcall(vim.cmd, [[

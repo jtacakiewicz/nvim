@@ -155,7 +155,7 @@ end
 --==========
 local luasnipsetup, luasnip = pcall(require, 'luasnip')
 if luasnipsetup then
-    function leave_snippet()
+    function LeaveSnippet()
         if
             ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
             and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
@@ -167,7 +167,7 @@ if luasnipsetup then
 
     -- stop snippets when you leave to normal mode
     vim.api.nvim_command([[
-autocmd ModeChanged * lua leave_snippet()
+autocmd ModeChanged * lua LeaveSnippet()
 ]])
 
     vim.keymap.set({ "i", "s" }, "<Tab>", function()
@@ -225,7 +225,7 @@ end
 --=====================
 --Obsidian
 --=====================
-local obssetup, obsidian = pcall(require, "obsidian")
+local obssetup, _ = pcall(require, "obsidian")
 if obssetup then
     keymap.set("n", "<leader>no", "<cmd>ObsidianOpen<cr>", { desc = "Open Obsidian" })
     keymap.set("n", "<leader>nn", "<cmd>ObsidianNew<cr>", { desc = "Create a new Obsidian Document" })
@@ -235,7 +235,10 @@ if obssetup then
     keymap.set("n", "<leader>nr", "<cmd>ObsidianRename<cr>", { desc = "Obsidian Rename current note" })
     keymap.set("n", "<leader>nt", "<cmd>ObsidianTemplate<cr>", { desc = "Insert Obsidian Template into file" })
 end
-local gitsignssetup, gitsigns = pcall(require, "gitsigns")
+local gitsignssetup, _ = pcall(require, "gitsigns")
 if gitsignssetup then
-    keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "show git hunk diff"} );
+    keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { silent=true, desc = "show git hunk diff"} );
+    keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>",        { silent=true, desc = "show git blame"} );
+    keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>",        { silent=true, desc = "toggle line blame"} );
+    keymap.set("n", "<leader>gs", ":Gitsigns toggle_signs<CR>",        { silent=true, desc = "toggle gitsigns"} );
 end
