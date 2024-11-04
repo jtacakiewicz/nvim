@@ -79,14 +79,15 @@ M.nvim_create_augroups(autoCommands)
 -- })
 
 --mouse
-local status, _ = pcall(vim.cmd, [[
-set mouse=a
-augroup cdpwd
-    autocmd!
-    autocmd BufWinEnter * cd $PWD
-augroup END
-]])
-if not status then
-    print("couldnt call vim function")
-    return
-end
+vim.o.mouse = "a"
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    group = vim.api.nvim_create_augroup("cdpwd", { clear = true }),
+    command = "cd $PWD"
+})
+
+vim.api.nvim_create_augroup("filetypedetect", { clear = true })
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+    group = "filetypedetect",
+    pattern = {"*.frag", "*.vert", "*.comp"},
+    command = "setfiletype glsl"
+})
