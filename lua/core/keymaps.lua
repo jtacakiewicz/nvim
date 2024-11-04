@@ -83,7 +83,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "goto definition" })
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "hover" })
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "implementation" })
-        vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature_help" })
+        -- vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature_help" })
         vim.keymap.set('n', '<leader>fa', vim.lsp.buf.add_workspace_folder,
             { buffer = ev.buf, desc = "add_workspace_folder" })
         vim.keymap.set('n', '<leader>fr', vim.lsp.buf.remove_workspace_folder,
@@ -144,11 +144,11 @@ if telescopesetup then
 end
 local telescopebisetup, telescopebi = pcall(require, 'telescope.builtin')
 if telescopebisetup then
-    keymap.set("n", "<leader>ff", function() telescopebi.find_files() end) -- find files within current working directory, respects .gitignore
-    keymap.set("n", "<leader>fs", function() telescopebi.live_grep() end) -- find string in current working directory as you type
-    keymap.set("n", "<leader>fc", function() telescopebi.grep_string() end) -- find string under cursor in current working directory
-    keymap.set("n", "<leader>fb", function() telescopebi.buffers() end) -- list open buffers in current neovim instance
-    keymap.set("n", "<leader>fh", function() telescopebi.help_tags() end) -- list available help tags
+    keymap.set("n", "<leader>ff", telescopebi.find_files, { desc = "telescope find files" } ) -- find files within current working directory, respects .gitignore
+    keymap.set("n", "<leader>fs", telescopebi.live_grep, { desc = "telescope live grep"}) -- find string in current working directory as you type
+    keymap.set("n", "<leader>fc", telescopebi.grep_string, { desc = "telescope grep string"}) -- find string under cursor in current working directory
+    keymap.set("n", "<leader>fb", telescopebi.buffers, { desc = "telescope find buffers"}) -- list open buffers in current neovim instance
+    keymap.set("n", "<leader>fh", telescopebi.help_tags, { desc = "telescope find help tags"}) -- list available help tags
 end
 --==========
 --LuaSnip

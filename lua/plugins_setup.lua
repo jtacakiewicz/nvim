@@ -54,6 +54,8 @@ return packer.startup(function(use)
     use{'nvim-neotest/nvim-nio'}
     use{"mfussenegger/nvim-dap"}
     use{"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+
+    use("chentoast/marks.nvim")
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
 
@@ -61,11 +63,13 @@ return packer.startup(function(use)
     use("kyazdani42/nvim-web-devicons")
 
     -- use("tpope/vim-surround")
+    use {"kylechui/nvim-surround"}
     --code completion
     use{"hrsh7th/nvim-cmp",
         requires = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-nvim-lsp-signature-help",
+            "saadparwaiz1/cmp_luasnip"
         }
     }
 
@@ -90,11 +94,10 @@ return packer.startup(function(use)
         -- install jsregexp (optional!:).
         run = "make install_jsregexp"
     }
+    use { "rafamadriz/friendly-snippets" }
 
     use{ 'echasnovski/mini.nvim', version = false}
-
     use{ 'numToStr/Comment.nvim'}
-
     use {'lewis6991/gitsigns.nvim'}
 
 
@@ -102,13 +105,6 @@ return packer.startup(function(use)
     use {
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
-    }
-    use {
-        "epwalsh/obsidian.nvim",
-        tag = "*",  -- recommended, use latest release instead of latest commit
-        requires = {
-            "nvim-lua/plenary.nvim",
-        },
     }
 
     --fuzzy finder mainly
