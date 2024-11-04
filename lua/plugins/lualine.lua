@@ -19,16 +19,45 @@ lualine_colorscheme.command = {
 
 -- configure lualine with modified theme
 lualine.setup({
-  options = {
-    theme = lualine_colorscheme,
-  },
-  refresh = {                  -- sets how often lualine should refreash it's contents (in ms)
-    statusline = 1000,         -- The refresh option sets minimum time that lualine tries
-    tabline = 1000,            -- to maintain between refresh. It's not guarantied if situation
-    winbar = 1000              -- arises that lualine needs to refresh itself before this time
-  },
-  --winbar = {
-  --    lualine_a = {'buffers'},
-  --  }
+    options = {
+        icons_enabled = true,
+        theme = lualine_colorscheme,
+        component_separators = { left = '|', right = '|' },
+        section_separators = { left = '', right = '' },
+        disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+        },
+        ignore_focus = {},
+        always_divide_middle = true,
+        globalstatus = false,
+        refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
+        }
+    },
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff' --[[ , 'diagnostics' ]] },
+        lualine_c = { --[[ 'filename' ]] },
+        lualine_x = { --[[ 'encoding', 'fileformat', 'filetype' ]] },
+        lualine_y = { --[[ 'progress' ]] },
+        lualine_z = { --[[ 'location' ]] }
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { --[[ 'filename' ]] },
+        lualine_x = { --[[ 'location' ]] },
+        lualine_y = {},
+        lualine_z = {}
+    },
+    tabline = {},
+    winbar = {},
+    inactive_winbar = {},
+    extensions = {}
 })
+require('lualine').setup {
+}
 

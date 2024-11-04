@@ -31,7 +31,7 @@ bufferline.setup {
         -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
         diagnostics_indicator = function(count, level, diagnostics_dict, context)
             local icon = level:match("error") and "" or ""
-            return "("..count..icon..")" 
+            return "("..count..icon..")"
         end,
         -- NOTE: this will be called a lot so don't do any heavy processing here
         custom_filter = function(buf_number, buf_numbers)
@@ -71,7 +71,7 @@ bufferline.setup {
             return icon, hl
         end,
         show_buffer_icons = true, -- disable filetype icons for buffers
-        show_buffer_close_icons = true,
+        show_buffer_close_icons = false,
         show_close_icon = true,
         show_tab_indicators = true,
         show_duplicate_prefix = true, -- whether to show duplicate buffer prefix
@@ -79,7 +79,7 @@ bufferline.setup {
         move_wraps_at_ends = false, -- whether or not the move command "wraps" at the first or last position
         -- can also be a table containing 2 custom separators
         -- [focused and unfocused]. eg: { '|', '|' }
-        separator_style = "slant", --| "slope" | "thick" | "thin" | { 'any', 'any' },
+        separator_style = "thin", --| "slope" | "thick" | "thin" | { 'any', 'any' },
         enforce_regular_tabs = false,
         always_show_bufferline = true,
         hover = {
