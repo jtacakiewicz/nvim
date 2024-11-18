@@ -88,14 +88,13 @@ nvim_lsp.clangd.setup{
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = {
-      "clangd",
-      "--background-index",
-      "--clang-tidy",
-      "--header-insertion=iwyu",
-      "--completion-style=detailed",
-      "--function-arg-placeholders",
-      "--fallback-style=llvm",
-      "--header-insertion=never",
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+        "--header-insertion=iwyu",
     }
 }
 nvim_lsp.pyright.setup{}
