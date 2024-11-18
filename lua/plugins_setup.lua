@@ -96,7 +96,7 @@ return packer.startup(function(use)
     }
     use { "rafamadriz/friendly-snippets" }
 
-    use{ 'echasnovski/mini.nvim', version = false}
+    use{ 'echasnovski/mini.align', version = false}
     use{ 'numToStr/Comment.nvim'}
     use {'lewis6991/gitsigns.nvim'}
 
