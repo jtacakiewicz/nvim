@@ -143,12 +143,15 @@ if telescopesetup then
     keymap.set("n", "<leader>u",  function() telescope.extensions.undo.undo({ side_by_side = true }) end) -- list available help tags
 end
 local telescopebisetup, telescopebi = pcall(require, 'telescope.builtin')
+
+
 if telescopebisetup then
     keymap.set("n", "<leader>ff", telescopebi.find_files, { desc = "telescope find files" } ) -- find files within current working directory, respects .gitignore
     keymap.set("n", "<leader>fs", telescopebi.live_grep, { desc = "telescope live grep"}) -- find string in current working directory as you type
     keymap.set("n", "<leader>fc", telescopebi.grep_string, { desc = "telescope grep string"}) -- find string under cursor in current working directory
     keymap.set("n", "<leader>fb", telescopebi.buffers, { desc = "telescope find buffers"}) -- list open buffers in current neovim instance
     keymap.set("n", "<leader>fh", telescopebi.help_tags, { desc = "telescope find help tags"}) -- list available help tags
+    keymap.set('n', '<leader>fm', telescopebi.keymaps, { desc = "telescope show all keymaps (custom + default)" })
 end
 --==========
 --LuaSnip
