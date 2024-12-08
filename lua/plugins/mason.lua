@@ -40,7 +40,7 @@ mason.setup {
 local status_lsp, mason_lsp = pcall(require, "mason-lspconfig")
 if not status_lsp then return end
 mason_lsp.setup {
-    ensure_installed = { "clangd", "pyright", "jdtls", "ts_ls" }, -- List of LSP servers to install
+    ensure_installed = { "clangd", "pylsp", "jdtls", "ts_ls" }, -- List of LSP servers to install
     automatic_installation = true,  -- Automatically install if not found
 }
 local status_tool, mason_tool = pcall(require, "mason-tool-installer")
