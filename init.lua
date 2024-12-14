@@ -23,6 +23,6 @@ require("plugins.oil")
 require("plugins.nvim-surround")
 require("plugins.mini-align")
 require("plugins.comment")
--- require("plugins.leetcode")
 require("plugins.hardtime")
+require("plugins.which")
 end
