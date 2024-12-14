@@ -10,4 +10,5 @@ if not snipstatus then
 end
 snip.filetype_extend("cpp", {"cpp"})
 sniploaders.lazy_load()
+snip.setup{}
 

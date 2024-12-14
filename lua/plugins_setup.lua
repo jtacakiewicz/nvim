@@ -61,6 +61,7 @@ return packer.startup(function(use)
 
     --better icons
     use("kyazdani42/nvim-web-devicons")
+    use("folke/which-key.nvim")
 
     -- use("tpope/vim-surround")
     use {"kylechui/nvim-surround"}
@@ -127,23 +128,6 @@ return packer.startup(function(use)
     use {'stevearc/oil.nvim',
         requires = { "nvim-tree/nvim-web-devicons" },
     }
-    --leetcode
-    -- use {
-    --     "kawre/leetcode.nvim",
-    --     build = ":TSUpdate html",
-    --     requires = {
-    --         "nvim-telescope/telescope.nvim",
-    --         "nvim-lua/plenary.nvim", -- required by telescope
-    --         "MunifTanjim/nui.nvim",
-    --
-    --         -- optional
-    --         "nvim-treesitter/nvim-treesitter",
-    --         "nvim-tree/nvim-web-devicons",
-    --     },
-    --     opts = {
-    --         -- configuration goes here
-    --     },
-    -- }
     --colorscheme
     use {"m4xshen/hardtime.nvim",
         requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
