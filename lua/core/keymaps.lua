@@ -40,8 +40,8 @@ keymap.set("n", "<leader>x", '"xp', { desc = "paste from x register" })
 keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "switch to next buffer" })
 keymap.set("n", "<S-h>", ":bprevious<CR>", { desc = "switch to prev buffer" })
 --delete buffers
-vim.keymap.set("n", "_", function() vim.cmd("bp|bd #") end, { desc = "delete buffer and switch to prev" })
-vim.keymap.set("n", "<C-_>", function() vim.cmd("bp|bd! #") end, { desc = "delete buffer and switch to prev" })
+keymap.set("n", "_", function() vim.cmd("bp|bd #") end, { desc = "delete buffer and switch to prev" })
+keymap.set("n", "<C-_>", function() vim.cmd("bp|bd! #") end, { desc = "delete buffer and switch to prev" })
 
 -- Stay in indent mode
 keymap.set("v", "<", "<gv", { desc = "shift text left" })
@@ -75,27 +75,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- Enable completion triggered by <c-x><c-o>
         --vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
         --fix cmp for commands
-        vim.keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
+        keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "goto declaration" })
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "goto definition" })
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "hover" })
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "implementation" })
-        -- vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature_help" })
-        vim.keymap.set('n', '<leader>fa', vim.lsp.buf.add_workspace_folder,
+        keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "goto declaration" })
+        keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "goto definition" })
+        keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "hover" })
+        keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "implementation" })
+        -- keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature_help" })
+        keymap.set('n', '<leader>fa', vim.lsp.buf.add_workspace_folder,
             { buffer = ev.buf, desc = "add_workspace_folder" })
-        vim.keymap.set('n', '<leader>fr', vim.lsp.buf.remove_workspace_folder,
+        keymap.set('n', '<leader>fr', vim.lsp.buf.remove_workspace_folder,
             { buffer = ev.buf, desc = "remove_workspace_folder" })
-        vim.keymap.set('n', '<leader>fl', function()
+        keymap.set('n', '<leader>fl', function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         end, { buffer = ev.buf, desc = "lists workspace folders" })
-        vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "goto type definition" })
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename" })
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "code action" })
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "goto references" })
-        vim.keymap.set('n', '<leader>fo', function()
+        keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "goto type definition" })
+        keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename" })
+        keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "code action" })
+        keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "goto references" })
+        keymap.set('n', '<leader>fo', function()
             vim.lsp.buf.format { async = true }
         end, { buffer = ev.buf, desc = "format current buffer" })
         local range_formatting = function()
@@ -110,7 +110,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
             })
         end
 
-        vim.keymap.set("v", "<leader>fo", range_formatting, { buffer = ev.buf, desc = "format selected range" })
+        keymap.set("v", "<leader>fo", range_formatting, { buffer = ev.buf, desc = "format selected range" })
     end,
 })
 --==========
@@ -173,16 +173,16 @@ if luasnipsetup then
 autocmd ModeChanged * lua LeaveSnippet()
 ]])
 
-    vim.keymap.set({ "i", "s" }, "<Tab>", function()
+    keymap.set({ "i", "s" }, "<Tab>", function()
         if (luasnip.expand_or_jumpable()) then
             luasnip.expand_or_jump()
         else
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
         end
     end, { silent = true })
-    vim.keymap.set({ "i", "s" }, "<S-Tab>", function() luasnip.jump(-1) end, { silent = true })
+    keymap.set({ "i", "s" }, "<S-Tab>", function() luasnip.jump(-1) end, { silent = true })
 
-    vim.keymap.set({ "i", "s" }, "<C-E>", function()
+    keymap.set({ "i", "s" }, "<C-E>", function()
         if luasnip.choice_active() then
             luasnip.change_choice(1)
         end

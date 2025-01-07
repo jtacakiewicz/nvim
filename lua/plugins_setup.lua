@@ -67,7 +67,6 @@ return packer.startup(function(use)
     }
     use("folke/which-key.nvim")
 
-    -- use("tpope/vim-surround")
     use {"kylechui/nvim-surround"}
     --code completion
     use{"hrsh7th/nvim-cmp",
