@@ -31,8 +31,12 @@ telescope.setup({
                 ["<C-l>"] = actions.send_selected_to_loclist, -- move to next result
                 ["<C-j>"] = actions.move_selection_next, -- move to next result
                 ["<C-q>"] = function(prompt_bufnr)
-                    local qflist = vim.fn.getqflist()
-                    if vim.tbl_isempty(qflist) then
+                    local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+                    local multi_selections = picker:get_multi_selection()
+
+                    -- Get the count of selected items
+                    local count = #multi_selections
+                    if count == 0 then
                         -- Add all entries to quickfix list
                         actions.send_to_qflist(prompt_bufnr)
                     else

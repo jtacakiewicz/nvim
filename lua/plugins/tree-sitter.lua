@@ -4,11 +4,15 @@ if not status then
     return
 end
 configs.setup {
-    ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "java", "python"},
+    ensure_installed = { "c", "rust", "cpp", "lua", "vim", "vimdoc", "query", "java", "python"},
     sync_install = false,
     auto_install = true,
     highlight = {
-        enable = true
+        enable = true,
+        disable = function(lang, buf)
+            local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+            return filetype == "TelescopePrompt"
+        end,
     },
     indent = { enable = true },
     textobjects = {
