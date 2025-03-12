@@ -5,6 +5,7 @@ if not setup then
 end
 
 telescope.load_extension("undo")
+telescope.load_extension("fzf")
 -- import telescope actions safely
 local actions_setup, actions = pcall(require, "telescope.actions")
 if not actions_setup then
@@ -46,4 +47,3 @@ telescope.setup({
 })
 
 
-telescope.load_extension("fzf")
