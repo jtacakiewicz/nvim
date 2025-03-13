@@ -60,7 +60,11 @@ return packer.startup(function(use)
     use("michaeljsmith/vim-indent-object")
 
     --better icons
-    use("kyazdani42/nvim-web-devicons")
+    use{"kyazdani42/nvim-web-devicons",
+       config = function()
+          require("nvim-web-devicons").setup{}
+       end
+    }
     use("folke/which-key.nvim")
 
     -- use("tpope/vim-surround")
@@ -76,6 +80,11 @@ return packer.startup(function(use)
             "saadparwaiz1/cmp_luasnip"
         }
     }
+    use{"olimorris/codecompanion.nvim", 
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        }}
 
     --use {"ray-x/lsp_signature.nvim",
     --   config = function()
