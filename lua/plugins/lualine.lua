@@ -25,14 +25,10 @@ vim.api.nvim_create_autocmd({ "User" }, {
 local spinner_symbols = {
   "⠋",
   "⠙",
-  "⠹",
   "⠸",
-  "⠼",
   "⠴",
   "⠦",
-  "⠧",
   "⠇",
-  "⠏",
 }
 
 

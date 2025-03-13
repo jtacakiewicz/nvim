@@ -245,3 +245,10 @@ if gitsignssetup then
     keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>",        { silent=true, desc = "toggle line blame"} );
     keymap.set("n", "<leader>gs", ":Gitsigns toggle_signs<CR>",        { silent=true, desc = "toggle gitsigns"} );
 end
+--=====================
+--CodeCompanion
+--=====================
+local codecompsetup, _ = pcall(require, "codecompanion")
+if codecompsetup then
+keymap.set("n", "<leader>cc", ":CodeCompanionChat<CR>", { silent=true, desc = "show git hunk diff"} );
+end
