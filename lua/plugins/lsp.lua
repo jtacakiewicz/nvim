@@ -95,8 +95,8 @@ nvim_lsp.clangd.setup{
     }
 }
 nvim_lsp.lua_ls.setup{capabilities = capabilities}
+nvim_lsp.pylsp.setup{ capabilities = capabilities }
 -- nvim_lsp.r_language_server.setup{capabilities = capabilities}
--- nvim_lsp.pylsp.setup{ capabilities = capabilities }
 -- nvim_lsp.ts_ls.setup{capabilities = capabilities}
 -- nvim_lsp.gopls.setup{capabilities = capabilities}
 -- nvim_lsp.sqls.setup{capabilities = capabilities}

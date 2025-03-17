@@ -1,7 +1,6 @@
 local setup, codecomp = pcall(require, 'codecompanion')
-    print('Hello World')
 if not setup then return end
-require("codecompanion").setup({
+codecomp.setup({
     adapters = {
         opts = {
             show_defaults = false,
@@ -48,6 +47,8 @@ require("codecompanion").setup({
         },
     },
 })
+
+
 -- Function to show a spinner while Ollama processes
 local function show_spinner()
   local spinners = {"-", "/", "|", "\\"}
