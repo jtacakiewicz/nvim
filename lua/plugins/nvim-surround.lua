@@ -3,7 +3,7 @@ if not status then return end
 surround.setup{
     keymaps = {
         insert = "<C-s>",
-        insert_line = "<C-s>",
+        -- insert_line = "<C-s>",
         normal = "<C-s>",
         normal_cur = "<C-s>s",
         normal_line = "<C-s>S",

@@ -50,12 +50,12 @@ cmp.setup {
         end,
     },
     performance = {
-        max_view_entries = 5,
+        -- max_view_entries = 5,
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
         ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
-        ["<C-f>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
         ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
         -- C-b (back) C-f (forward) for snippet placeholder navigation.
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -80,6 +80,16 @@ cmp.setup {
             end,
         }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<C-f>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                local enter_key = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+
+                -- Feed the Enter key
+                vim.api.nvim_feedkeys(enter_key, "i", false)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
         ['<Tab>'] = cmp.mapping(function(fallback)
             if luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
