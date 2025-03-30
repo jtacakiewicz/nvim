@@ -9,7 +9,9 @@ require("plugins.bufferline")
 require("plugins.lualine")
 require("plugins.gitsigns")
 require("plugins.telescope")
-require("plugins.mason")
+if vim.loop.os_uname().sysname == "Darwin" then
+    require("plugins.mason")
+end
 
 require("plugins.marks")
 
