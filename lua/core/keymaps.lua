@@ -67,6 +67,22 @@ keymap.set('n', '<leader>od', vim.diagnostic.open_float, { desc = "opens diagnos
 keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "goes to prev diagnostic" })
 keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "goest to next diagnostic" })
 keymap.set('n', '<leader>ld', vim.diagnostic.setqflist, { desc = "lists diagnosic locations" })
+local function hide_diagnostics()
+    vim.diagnostic.config({  -- https://neovim.io/doc/user/diagnostic.html
+        virtual_text = false,
+        signs = false,
+        underline = false,
+    })
+end
+local function show_diagnostics()
+    vim.diagnostic.config({
+        virtual_text = true,
+        signs = true,
+        underline = true,
+    })
+end
+vim.keymap.set("n", "<leader>hd", hide_diagnostics, { desc = "hide diagnostics"} )
+vim.keymap.set("n", "<leader>sd", show_diagnostics, { desc = "show diagnostics"})
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current bufferf
 vim.api.nvim_create_autocmd('LspAttach', {
