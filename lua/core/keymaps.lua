@@ -6,10 +6,6 @@ keymap.set("i", "jk", "<ESC>")
 
 keymap.set("n", "<leader>src", function() vim.cmd("luafile %") end, { desc = "sourcing neovim setup" })
 
--- keymap.set("t", "<ESC>", "<C-\\><C-n>")
--- keymap.set("t", "<C-]>", "<C-\\><C-n>:bnext<CR>")
--- keymap.set("t", "<C-[>", "<C-\\><C-n>:bprev<CR>")
-
 keymap.set("n", "<leader>nh", function() vim.cmd("nohl") end, { desc = "hide active highlights" })
 
 keymap.set({ "v", "o", "n" }, "x", '"_x', { desc = "x no longer adds to registers" })
@@ -27,14 +23,6 @@ keymap.set("n", "<leader>z", '"zp', { desc = "paste from z register" })
 keymap.set("v", "<leader>x", '"xy', { desc = "yank into x register" })
 keymap.set("v", "<leader>X", '"Xy', { desc = "yank into X register" })
 keymap.set("n", "<leader>x", '"xp', { desc = "paste from x register" })
-
--- keymap.set("n", "<leader>sv", "<C-w>v", { desc = "split window vertically" })
--- keymap.set("n", "<leader>sh", "<C-w>s", { desc = "split window horizontally" })
--- keymap.set("n", "<leader>se", "<C-w>=", { desc = "make split windows equal width & height" })
--- keymap.set("n", "<leader>sx", "<C-w>c", { desc = "close current split window" })
--- keymap.set("n", "<leader>so", "<C-w>o", { desc = "close current split window" })
--- keymap.set("n", "<leader>s_", "<C-w>_", { desc = "max the height of split" })
--- keymap.set("n", "<leader>s|", "<C-w>|", { desc = "max the width of split" })
 
 -- Navigate buffers
 keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "switch to next buffer" })
@@ -129,27 +117,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         keymap.set("v", "<leader>fo", range_formatting, { buffer = ev.buf, desc = "format selected range" })
     end,
 })
---==========
---nvim dap
---==========
---alt as the 'debug key'
-local dapsetup, dap = pcall(require, 'dap')
-local dapuisetup, dapui = pcall(require, 'dapui')
-
-if dapsetup then
-    keymap.set('n', '<A-c>', function() dap.run_to_cursor() end)
-    keymap.set('n', '<A-CR>', function() dap.continue() end)
-    keymap.set('n', '<A-down>', function() dap.step_over() end)
-    keymap.set('n', '<A-right>', function() dap.step_into() end)
-    keymap.set('n', '<A-left>', function() dap.step_out() end)
-
-    keymap.set('n', '<A-t>', function() dap.terminate() end)
-    keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end, { desc = "sets a breakpoint" })
-    keymap.set('n', '<leader>B', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
-        { desc = "sets a logging breakpint" })
-    keymap.set('n', '<A-e>', function() dapui.eval() end)
-    keymap.set('n', '<leader>du', function() dapui.toggle() end, { desc = "toggle dapui gui" })
-end
 --either show diagnostic message or eval expression if debug session is active
 --==========
 --Telescope
@@ -240,31 +207,4 @@ end
 local besc, _ = pcall(require, "jdhao/better-escape.vim")
 if not besc then
     keymap.set("i", "jk", "<Esc>")
-end
---=====================
---Obsidian
---=====================
-local obssetup, _ = pcall(require, "obsidian")
-if obssetup then
-    keymap.set("n", "<leader>no", "<cmd>ObsidianOpen<cr>", { desc = "Open Obsidian" })
-    keymap.set("n", "<leader>nn", "<cmd>ObsidianNew<cr>", { desc = "Create a new Obsidian Document" })
-    keymap.set("n", "<leader>ns", "<cmd>ObsidianSearch<cr>", { desc = "Search Obsidian" })
-    keymap.set("n", "<leader>nf", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Obsidian Find Files" })
-    keymap.set("n", "<leader>np", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image" })
-    keymap.set("n", "<leader>nr", "<cmd>ObsidianRename<cr>", { desc = "Obsidian Rename current note" })
-    keymap.set("n", "<leader>nt", "<cmd>ObsidianTemplate<cr>", { desc = "Insert Obsidian Template into file" })
-end
-local gitsignssetup, _ = pcall(require, "gitsigns")
-if gitsignssetup then
-    keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { silent=true, desc = "show git hunk diff"} );
-    keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>",        { silent=true, desc = "show git blame"} );
-    keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>",        { silent=true, desc = "toggle line blame"} );
-    keymap.set("n", "<leader>gs", ":Gitsigns toggle_signs<CR>",        { silent=true, desc = "toggle gitsigns"} );
-end
---=====================
---CodeCompanion
---=====================
-local codecompsetup, _ = pcall(require, "codecompanion")
-if codecompsetup then
-keymap.set("n", "<leader>cc", ":CodeCompanionChat<CR>", { silent=true, desc = "show git hunk diff"} );
 end

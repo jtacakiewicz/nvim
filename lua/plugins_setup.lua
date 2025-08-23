@@ -51,13 +51,11 @@ return packer.startup(function(use)
     --slick line at the top
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
-    use{'nvim-neotest/nvim-nio'}
-    use{"mfussenegger/nvim-dap"}
-    use{"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-
     use("chentoast/marks.nvim")
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
+
+    use("tpope/vim-sleuth")
 
     --better icons
     use{"kyazdani42/nvim-web-devicons",
@@ -65,7 +63,6 @@ return packer.startup(function(use)
           require("nvim-web-devicons").setup{}
        end
     }
-    use("folke/which-key.nvim")
 
     use {"kylechui/nvim-surround"}
     --code completion
@@ -79,25 +76,7 @@ return packer.startup(function(use)
             "saadparwaiz1/cmp_luasnip"
         }
     }
-    use{"olimorris/codecompanion.nvim", 
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-        }}
-
-    --use {"ray-x/lsp_signature.nvim",
-    --   config = function()
-    --      require("lsp_signature").setup{}
-    --   end
-    --}
-
-    --easy lsp and dap servers
-    use {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        "neovim/nvim-lspconfig",
-    }
+    use { "neovim/nvim-lspconfig"}
 
     use{
         "L3MON4D3/LuaSnip",
@@ -135,10 +114,6 @@ return packer.startup(function(use)
     --file manager
     use {'stevearc/oil.nvim',
         requires = { "nvim-tree/nvim-web-devicons" },
-    }
-    --colorscheme
-    use {"m4xshen/hardtime.nvim",
-        requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
     }
 
     if packer_bootstrap then

@@ -15,17 +15,13 @@ end
 
 require("plugins.marks")
 
-require("plugins.nvim-dap")
 require("plugins.tree-sitter")
 require("plugins.snip")
 require("plugins.lsp")
 require("plugins.cmp")
-require("plugins.codecompanion")
 require("plugins.tmux")
 require("plugins.oil")
 require("plugins.nvim-surround")
 require("plugins.mini-align")
 require("plugins.comment")
-require("plugins.hardtime")
-require("plugins.which")
 end
