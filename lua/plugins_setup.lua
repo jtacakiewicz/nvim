@@ -43,14 +43,6 @@ return packer.startup(function(use)
     --highlight yanks
     use("machakann/vim-highlightedyank")
 
-    --slick line at the bottom
-    use {
-        "nvim-lualine/lualine.nvim",
-        requires = { "kyazdani42/nvim-web-devicons", opt = true }
-    }
-    --slick line at the top
-    use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
-
     use("chentoast/marks.nvim")
     --to indent object selected
     use("michaeljsmith/vim-indent-object")

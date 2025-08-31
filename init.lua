@@ -5,8 +5,6 @@ require("core.options")
 require("core.colorscheme")
 
 if plugins_setup then
-require("plugins.bufferline")
-require("plugins.lualine")
 require("plugins.gitsigns")
 require("plugins.telescope")
 if vim.loop.os_uname().sysname == "Darwin" then
@@ -24,4 +22,7 @@ require("plugins.oil")
 require("plugins.nvim-surround")
 require("plugins.mini-align")
 require("plugins.comment")
+
+require("scripts.bufferline")
+require("scripts.lualine")
 end
