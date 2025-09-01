@@ -1,4 +1,5 @@
 -- Simple bufferline without plugins
+local deviconssetup, devicons = pcall(require, 'nvim-web-devicons')
 local function bufferline()
     local buffers = vim.api.nvim_list_bufs()
     local current = vim.api.nvim_get_current_buf()
@@ -24,6 +25,7 @@ local function bufferline()
         if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_option(buf, "buflisted") then
             local name = vim.api.nvim_buf_get_name(buf)
             local stripped_name = vim.fn.fnamemodify(name, ":t") -- filename only end
+
             if name == "" then
                 name = "UNNAMED"
             elseif count[stripped_name] > 1 then
@@ -37,6 +39,14 @@ local function bufferline()
             else
                 name = stripped_name
             end
+
+            local modified = vim.api.nvim_buf_get_option(buf, "modified") and "*" or " "
+
+            if deviconssetup then
+                local icon, icon_hl = devicons.get_icon(stripped_name, vim.fn.fnamemodify(name, ":e"), { default = true })
+                name = icon .. " " .. name
+            end
+            name = name .. modified
 
             if buf == current then
                 line = line .. "%#Visual#" .. lsep .. name .. rsep
