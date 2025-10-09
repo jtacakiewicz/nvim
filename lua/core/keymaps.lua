@@ -83,6 +83,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
+        keymap.set('n', 'gh', function() vim.cmd("ClangdSwitchSourceHeader") end, { buffer = ev.buf, desc = "goto header/cpp file" })
         keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "goto declaration" })
         keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "goto definition" })
         keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "hover" })
