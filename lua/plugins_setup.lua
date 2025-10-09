@@ -1,13 +1,13 @@
 -- auto install packer if not installedmini
 local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-    vim.cmd([[packadd packer.nvim]])
-    return true
-  end
-  return false
+    local fn = vim.fn
+    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+        vim.cmd([[packadd packer.nvim]])
+        return true
+    end
+    return false
 end
 local packer_bootstrap = ensure_packer() -- true if packer was just installed
 
@@ -15,15 +15,15 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 -- when file is saved
 vim.cmd([[ 
   augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins_setup.lua source <afile> | PackerSync
+  autocmd!
+  autocmd BufWritePost plugins_setup.lua source <afile> | PackerSync
   augroup end
 ]])
 
 -- import packer safely
 local status, packer = pcall(require, "packer")
 if not status then
-  return
+    return
 end
 
 -- add list of plugins to install
@@ -43,7 +43,13 @@ return packer.startup(function(use)
     --highlight yanks
     use("machakann/vim-highlightedyank")
 
-    use("chentoast/marks.nvim")
+    use {"chentoast/marks.nvim",
+        config = function()
+            require('marks').setup {
+                sign_priority = { lower=5, upper=8, builtin=4, bookmark=10 },
+            }
+        end
+    }
     --to indent object selected
     use("michaeljsmith/vim-indent-object")
 
@@ -51,9 +57,9 @@ return packer.startup(function(use)
 
     --better icons
     use{"kyazdani42/nvim-web-devicons",
-       config = function()
-          require("nvim-web-devicons").setup{}
-       end
+        config = function()
+            require("nvim-web-devicons").setup{}
+        end
     }
 
     use {"kylechui/nvim-surround"}
@@ -79,16 +85,32 @@ return packer.startup(function(use)
     }
     use { "rafamadriz/friendly-snippets" }
 
-    use{ 'echasnovski/mini.align', version = false}
-    use{ 'numToStr/Comment.nvim'}
-    use {'lewis6991/gitsigns.nvim'}
+    use{ 'echasnovski/mini.align', version = false,
+        config = function()
+            require('mini.align').setup{}
+        end,
+    }
+    use{ 'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup({})
+        end
+    }
+    use {'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup({signcolumn = false})
+        end,
+    }
 
 
     --notetaking
-    use {
-        "iamcco/markdown-preview.nvim",
-        run = function() vim.fn["mkdp#util#install"]() end,
-    }
+    use({
+        'MeanderingProgrammer/render-markdown.nvim',
+        after = { 'nvim-treesitter' },
+        requires = { 'nvim-mini/mini.nvim', opt = true },
+        config = function()
+            require('render-markdown').setup({})
+        end,
+    })
 
     --fuzzy finder mainly
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } -- dependency for better sorting performance
@@ -109,6 +131,6 @@ return packer.startup(function(use)
     }
 
     if packer_bootstrap then
-    packer.sync()
-  end
+        packer.sync()
+    end
 end)
