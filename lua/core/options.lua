@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+opt.laststatus=0
 opt.showmode = false
 --line numbers
 opt.relativenumber = true

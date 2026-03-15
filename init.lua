@@ -19,5 +19,4 @@ require("plugins.nvim-surround")
 
 require("scripts.lsp")
 require("scripts.bufferline")
-require("scripts.lualine")
 end
