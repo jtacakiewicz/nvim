@@ -197,10 +197,10 @@ end
 --=====================
 local oilsetup, oil = pcall(require, "oil")
 
-if not oilsetup then
-    keymap.set("n", "<leader>oo", function() oil.open(oil.get_current_dir()) end, { desc = "opens oil.nvim" })
+if oilsetup then
+    keymap.set("n", "<leader>e", function() oil.open(oil.get_current_dir(), { preview = { split = "botright" } }) end, { desc = "opens oil.nvim" })
 else
-    keymap.set("n", "<leader>oo", function() vim.cmd("e .") end, { desc = "open file explorer" })
+    keymap.set("n", "<leader>e", function() vim.cmd("e .") end, { desc = "open file explorer" })
 end
 --=====================
 --better escape
