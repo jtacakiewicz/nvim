@@ -1,135 +1,27 @@
--- auto install packer if not installedmini
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-        vim.cmd([[packadd packer.nvim]])
-        return true
-    end
-    return false
-end
-local packer_bootstrap = ensure_packer() -- true if packer was just installed
-
--- autocommand that reloads neovim and installs/updates/removes plugins
--- when file is saved
-vim.cmd([[ 
-  augroup packer_user_config
-  autocmd!
-  autocmd BufWritePost plugins_setup.lua source <afile> | PackerSync
-  augroup end
-]])
-
--- import packer safely
-local status, packer = pcall(require, "packer")
-if not status then
-    return
-end
-
--- add list of plugins to install
-return packer.startup(function(use)
-    use("wbthomason/packer.nvim")
-    use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
-    --list of plugins
-
-    --colorscheme
-    use("gbprod/nord.nvim")
-
-    --tmux yank and movement
-    use("aserowy/tmux.nvim")
-
-    --better escape mapping
-    use{'jdhao/better-escape.vim', event = 'InsertEnter'}
-    --highlight yanks
-    use("machakann/vim-highlightedyank")
-
-    use {"chentoast/marks.nvim",
-        config = function()
-            require('marks').setup {
-                sign_priority = { lower=5, upper=8, builtin=4, bookmark=10 },
-            }
-        end
-    }
-    --to indent object selected
-    use("michaeljsmith/vim-indent-object")
-
-    use("tpope/vim-sleuth")
-
-    --better icons
-    use{"kyazdani42/nvim-web-devicons",
-        config = function()
-            require("nvim-web-devicons").setup{}
-        end
-    }
-
-    use {"kylechui/nvim-surround"}
-    --code completion
-    use{"hrsh7th/nvim-cmp",
-        requires = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lsp-signature-help",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline",
-            "saadparwaiz1/cmp_luasnip"
-        }
-    }
-    use { "neovim/nvim-lspconfig"}
-
-    use{
-        "L3MON4D3/LuaSnip",
-        -- follow latest release.
-        tag = "v2.*",
-        -- install jsregexp (optional!:).
-        run = "make install_jsregexp"
-    }
-    use { "rafamadriz/friendly-snippets" }
-
-    use{ 'echasnovski/mini.align', version = false,
-        config = function()
-            require('mini.align').setup{}
-        end,
-    }
-    use{ 'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup({})
-        end
-    }
-    use {'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup({signcolumn = false})
-        end,
-    }
-
-
-    --notetaking
-    use({
-        'MeanderingProgrammer/render-markdown.nvim',
-        after = { 'nvim-treesitter' },
-        requires = { 'nvim-mini/mini.nvim', opt = true },
-        config = function()
-            require('render-markdown').setup({})
-        end,
-    })
-
-    --fuzzy finder mainly
-    use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } -- dependency for better sorting performance
-    use { "nvim-telescope/telescope.nvim" } -- fuzzy finder
-    use { "debugloop/telescope-undo.nvim" }
-
-
-    use ("nvim-treesitter/nvim-treesitter")
-    use {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        after = "nvim-treesitter",
-        requires = "nvim-treesitter/nvim-treesitter",
-    }
-    --file manager
-    use {'stevearc/oil.nvim',
-        requires = { "nvim-tree/nvim-web-devicons" },
-    }
-
-    if packer_bootstrap then
-        packer.sync()
-    end
-end)
+local gh = function(x) return 'https://github.com/' .. x end
+vim.pack.add({
+    gh('nvim-lua/plenary.nvim'),
+    gh('gbprod/nord.nvim'),
+    gh('aserowy/tmux.nvim'),
+    gh('jdhao/better-escape.vim'),
+    gh('machakann/vim-highlightedyank'),
+    gh('chentoast/marks.nvim'),
+    gh('michaeljsmith/vim-indent-object'),
+    gh('tpope/vim-sleuth'),
+    gh('kyazdani42/nvim-web-devicons'),
+    gh('kylechui/nvim-surround'),
+    gh('hrsh7th/nvim-cmp'),
+    gh('neovim/nvim-lspconfig'),
+    gh('L3MON4D3/LuaSnip'),
+    gh('rafamadriz/friendly-snippets'),
+    gh('echasnovski/mini.align'),
+    gh('numToStr/Comment.nvim'),
+    gh('lewis6991/gitsigns.nvim'),
+    gh('nvim-telescope/telescope-fzf-native.nvim'),
+    gh('nvim-telescope/telescope.nvim'),
+    gh('debugloop/telescope-undo.nvim'),
+    gh('nvim-treesitter/nvim-treesitter'),
+    gh('nvim-treesitter/nvim-treesitter-textobjects'),
+    gh('stevearc/oil.nvim'),
+})
+return true
