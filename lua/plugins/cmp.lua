@@ -34,15 +34,32 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 --nvim-cmp setup
 cmp.setup {
     enabled = function()
-        -- disable completion in comments
-        local context = require('cmp.config.context')
-        -- keep command mode completion enabled when cursor is in a comment
-        if vim.api.nvim_get_mode().mode == 'c' then
-            return true
-        else
-            return not context.in_treesitter_capture("comment")
-                and not context.in_syntax_group("Comment")
+        if vim.fn.reg_recording() ~= "" or vim.fn.reg_executing() ~= "" then
+            return false
         end
+
+        local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+        local buftype_blacklist = {
+            prompt = true,
+            nofile = true,
+        }
+        if buftype_blacklist[buftype] then
+            return false
+        end
+
+        local filetype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+        local filetype_blacklist = {
+            TelescopePrompt = true,
+            oil = true,
+            harpoon = true,
+        }
+        if filetype_blacklist[filetype] then
+            return false
+        end
+
+        local context = require('cmp.config.context')
+        return not context.in_treesitter_capture("comment")
+            and not context.in_syntax_group("Comment")
     end,
     snippet = {
         expand = function(args)
