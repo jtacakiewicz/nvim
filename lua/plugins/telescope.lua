@@ -16,6 +16,13 @@ end
 telescope.setup({
     -- configure custom mappings
     defaults = {
+        layout_strategy = "horizontal",
+        layout_config = {
+            width={padding=0},
+            height={padding=0},
+            preview_width = 0.5,
+        },
+        border=false,
         ripgrep_arguments = {
             'rg',
             '--hidden',
