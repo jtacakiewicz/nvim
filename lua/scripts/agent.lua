@@ -4,9 +4,137 @@ local API_URL = os.getenv("CHAT_BASE_URL") or "http://localhost:1147"
 local API_KEY = os.getenv("CHAT_API_KEY") or ""
 local MODEL = os.getenv("MODEL") or "*"
 
-
 local marker_ns = vim.api.nvim_create_namespace("visual_marker")
 local instruction_ns = vim.api.nvim_create_namespace("llm_instruction")
+SYSTEM_PROMPT =  "You are a code refactoring tool. Rewrite the provided code based on the instruction. Output ONLY the raw replaced code. Do NOT wrap the result in markdown code fences. Do NOT write explanations."
+M.tools = {
+  {
+    type = "function",
+    ["function"] = {
+      name = "findd",
+      description = "Find files by name matching using `findd`. Paths are relative to the root directory of project.",
+      parameters = {
+        type = "object",
+        properties = {
+          pattern = {
+            type = "string",
+            description = "Pattern to match against file names (e.g. '*.lua' or 'manager').",
+          },
+          path = {
+            type = "string",
+            description = "Directory to search, relative to the project root directory. Defaults to '.'",
+          },
+        },
+        required = { "pattern" },
+      },
+    },
+  },
+  {
+    type = "function",
+    ["function"] = {
+      name = "rg",
+      description = "Search file contents with `grep`. Paths are relative to the root directory of project.",
+      parameters = {
+        type = "object",
+        properties = {
+          pattern = {
+            type = "string",
+            description = "Regex pattern to search for.",
+          },
+          path = {
+            type = "string",
+            description = "File or directory to search, relative to the project root directory. Defaults to '.'",
+          },
+        },
+        required = { "pattern" },
+      },
+    },
+  },
+  {
+    type = "function",
+    ["function"] = {
+      name = "ls",
+      description = "List files and directories. Paths are relative to the root directory of project.",
+      parameters = {
+        type = "object",
+        properties = {
+          path = {
+            type = "string",
+            description = "File or directory to list, relative to the project root directory. Defaults to '.'",
+          },
+        },
+        required = {},
+      },
+    },
+  },
+  {
+    type = "function",
+    ["function"] = {
+      name = "read_file_range",
+      description = "Read a specific line range from a file. Paths are relative to the root directory of project.",
+      parameters = {
+        type = "object",
+        properties = {
+          path = {
+            type = "string",
+            description = "Path to the file, relative to the project root directory.",
+          },
+          start_line = {
+            type = "integer",
+            description = "First line to read (1-based, inclusive).",
+          },
+          end_line = {
+            type = "integer",
+            description = "Last line to read (1-based, inclusive).",
+          },
+        },
+        required = { "path", "start_line", "end_line" },
+      },
+    },
+  },
+}
+
+local function create_prompt(bufnr, instruction, selected_text)
+  -- local bufnr = vim.api.nvim_get_current_buf()
+  local file = vim.api.nvim_buf_get_name(bufnr)
+  if file == "" then
+    file = "[No Name]"
+  end
+
+  local start_line, end_line
+  local mode = vim.fn.mode(1)
+  if mode == "v" or mode == "V" or mode == "\22" then
+    local s = vim.api.nvim_buf_get_mark(bufnr, "<")
+    local e = vim.api.nvim_buf_get_mark(bufnr, ">")
+    start_line, end_line = s[1], e[1]
+  else
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    start_line, end_line = cursor[1], cursor[1]
+  end
+  if start_line == 0 then start_line = 1 end
+  if end_line == 0 then end_line = start_line end
+
+  return {
+    {
+      role = "system",
+      content = SYSTEM_PROMPT,
+    },
+    {
+      role = "system",
+      content = string.format(
+        "From file %s, lines %d-%d.",
+        file,
+        start_line,
+        end_line
+      ),
+    },
+    {
+      role = "user",
+      content = string.format("Instruction: %s\n\nCode to rewrite:\n%s", instruction, selected_text),
+    },
+  }
+end
+
 
 local function sanitize_hl_group(name)
   if type(name) ~= "string" or name == "" then
@@ -58,7 +186,8 @@ local function clean_markdown(text)
 end
 
 function M.rewrite_selection()
-  local mode = vim.fn.visualmode()
+ local mode = vim.fn.visualmode()
+  local bufnr = vim.api.nvim_get_current_buf()
   vim.cmd("noautocmd normal! \27")
 
   local start_pos = vim.fn.getpos("'<")
@@ -113,18 +242,16 @@ function M.rewrite_selection()
 
     local payload = {
       model = MODEL,
-      messages = {
-        {
-          role = "system",
-          content = "You are a code refactoring tool. Rewrite the provided code based on the instruction. Output ONLY the raw replaced code. Do NOT wrap the result in markdown code fences. Do NOT write explanations.",
-        },
-        {
-          role = "user",
-          content = string.format("Instruction: %s\n\nCode to rewrite:\n%s", instruction, selected_text),
-        },
-      },
+      messages = create_prompt(bufnr, instruction, selected_text),
       temperature = 0.2,
     }
+
+    -- To add tool calls, include a `tools` field in the payload above, e.g.:
+    -- tools = { { type = "function", function = { name = "...", description = "...", parameters = { ... } } } }
+    -- and optionally `tool_choice = "auto"`.
+    -- Then modify the response handling below to check for message.tool_calls,
+    -- execute them, append tool results as role="tool" messages, and resend
+    -- until a max_tool_calls limit is reached or no tool_calls remain.
 
     vim.system(
       {
