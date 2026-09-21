@@ -209,3 +209,11 @@ local besc, _ = pcall(require, "jdhao/better-escape.vim")
 if not besc then
     keymap.set("i", "jk", "<Esc>")
 end
+
+--=====================
+--agent
+--
+local agentsetup, agent = pcall(require, "scripts.agent")
+if agentsetup then
+    vim.keymap.set("v", "<leader>r", agent.rewrite_selection, { desc = "LLM Visual Rewrite" })
+end
