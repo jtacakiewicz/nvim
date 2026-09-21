@@ -67,9 +67,11 @@ local autoCommands = {
     },
     filetypedetect = {
         {"BufNewFile,BufRead", "*.frag,*.vert,*.comp", "setfiletype glsl"}
+    },
+    telescope_on_start = {
+        {"VimEnter", "*", 'lua if vim.fn.argv(0) == "" then require("telescope.builtin").find_files() end'}
     }
 }
 require("../scripts/autogroups").setup(autoCommands)
-
 --mouse
 vim.o.mouse = "a"
