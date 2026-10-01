@@ -5,24 +5,18 @@ local MODEL = os.getenv("MODEL") or "*"
 
 local marker_ns = vim.api.nvim_create_namespace("visual_marker")
 local instruction_ns = vim.api.nvim_create_namespace("llm_instruction")
-SYSTEM_PROMPT =  "You are a code refactoring tool. Rewrite the provided code based on the instruction. Output ONLY the raw replaced code. Do NOT wrap the result in markdown code fences. Do NOT write explanations."
+SYSTEM_PROMPT = "Code refactoring tool: rewrite given code per instruction. Output only raw replaced code, no markdown fences, no explanations."
 M.tools = {
   {
     type = "function",
     ["function"] = {
       name = "findd",
-      description = "Find files by name matching using `findd`. Paths are relative to the root directory of project.",
+      description = "Find files by name. Paths relative to project root.",
       parameters = {
         type = "object",
         properties = {
-          pattern = {
-            type = "string",
-            description = "Pattern to match against file names (e.g. '*.lua' or 'manager').",
-          },
-          path = {
-            type = "string",
-            description = "Directory to search, relative to the project root directory. Defaults to '.'",
-          },
+          pattern = { type = "string", description = "Pattern, e.g. '*.lua' or 'manager'." },
+          path = { type = "string", description = "Dir to search, relative to project root. Default '.'" },
         },
         required = { "pattern" },
       },
@@ -32,18 +26,12 @@ M.tools = {
     type = "function",
     ["function"] = {
       name = "rg",
-      description = "Search file contents with `grep`. Paths are relative to the root directory of project.",
+      description = "Search file contents. Paths relative to project root.",
       parameters = {
         type = "object",
         properties = {
-          pattern = {
-            type = "string",
-            description = "Regex pattern to search for.",
-          },
-          path = {
-            type = "string",
-            description = "File or directory to search, relative to the project root directory. Defaults to '.'",
-          },
+          pattern = { type = "string", description = "Regex to search for." },
+          path = { type = "string", description = "File or dir to search, relative to project root. Default '.'" },
         },
         required = { "pattern" },
       },
@@ -53,14 +41,11 @@ M.tools = {
     type = "function",
     ["function"] = {
       name = "ls",
-      description = "List files and directories. Paths are relative to the root directory of project.",
+      description = "List files and dirs. Paths relative to project root.",
       parameters = {
         type = "object",
         properties = {
-          path = {
-            type = "string",
-            description = "File or directory to list, relative to the project root directory. Defaults to '.'",
-          },
+          path = { type = "string", description = "Dir to list, relative to project root. Default '.'" },
         },
         required = {},
       },
@@ -70,22 +55,13 @@ M.tools = {
     type = "function",
     ["function"] = {
       name = "read_file_range",
-      description = "Read a specific line range from a file. Paths are relative to the root directory of project.",
+      description = "Read a line range from a file. Paths relative to project root.",
       parameters = {
         type = "object",
         properties = {
-          path = {
-            type = "string",
-            description = "Path to the file, relative to the project root directory.",
-          },
-          start_line = {
-            type = "integer",
-            description = "First line to read (1-based, inclusive).",
-          },
-          end_line = {
-            type = "integer",
-            description = "Last line to read (1-based, inclusive).",
-          },
+          path = { type = "string", description = "File path, relative to project root." },
+          start_line = { type = "integer", description = "First line (1-based, inclusive)." },
+          end_line = { type = "integer", description = "Last line (1-based, inclusive)." },
         },
         required = { "path", "start_line", "end_line" },
       },
