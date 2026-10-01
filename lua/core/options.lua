@@ -14,6 +14,8 @@ opt.expandtab=true
 opt.autoindent=true
 opt.fileformat=unix
 
+vim.opt.splitright = true
+
 --wrap
 opt.wrap = true 
 --open all folds
