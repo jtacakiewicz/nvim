@@ -37,6 +37,8 @@ oil.setup({
 	},
 	use_default_keymaps = false,
 	watch_for_changes = true,
-	preview_split = "right",
+	float = {
+		preview_split = "right",
+	},
 	skip_confirm_for_simple_edits = true,
 })
