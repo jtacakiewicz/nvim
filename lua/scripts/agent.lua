@@ -134,26 +134,6 @@ local function ensure_hl_group(color)
   return hl_group
 end
 
-local function add_visual_marker(line_begin, line_end, color)
-  local bufnr = vim.api.nvim_get_current_buf()
-  local hl_group = ensure_hl_group(color)
-  if not hl_group then
-    return
-  end
-  vim.api.nvim_buf_clear_namespace(bufnr, marker_ns, line_begin - 1, line_end)
-  for line = line_begin, line_end do
-    vim.api.nvim_buf_set_extmark(bufnr, marker_ns, line - 1, 0, {
-      sign_text = "  ",
-      sign_hl_group = hl_group,
-    })
-  end
-end
-
-local function remove_visual_marker(line_begin, line_end)
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_clear_namespace(bufnr, marker_ns, line_begin - 1, line_end)
-end
-
 local function clean_markdown(text)
   text = text:gsub("^```%w*\n", ""):gsub("\n```$", ""):gsub("^```", ""):gsub("```$", "")
   return text
@@ -197,7 +177,7 @@ local function execute_tool(name, arguments)
   return "Unknown tool: " .. tostring(name)
 end
 
-local function perform_request(messages, tool_call_count, on_final)
+local function perform_request(messages, tool_call_count, on_final, on_cleanup)
   local payload = {
     model = MODEL,
     messages = messages,
@@ -233,12 +213,14 @@ local function perform_request(messages, tool_call_count, on_final)
       vim.schedule(function()
         if obj.code ~= 0 then
           vim.notify("cURL request failed: " .. (obj.stderr or "Unknown error"), vim.log.levels.ERROR)
+          on_cleanup()
           return
         end
 
         local ok, response = pcall(vim.json.decode, obj.stdout)
         if not ok or not response or not response.choices or #response.choices == 0 then
           vim.notify("Invalid API response: " .. (obj.stdout or "Empty response"), vim.log.levels.ERROR)
+          on_cleanup()
           return
         end
 
@@ -263,9 +245,13 @@ local function perform_request(messages, tool_call_count, on_final)
             })
           end
 
-          perform_request(messages, tool_call_count + 1, on_final)
+          perform_request(messages, tool_call_count + 1, on_final, on_cleanup)
         else
-          on_final(message.content or "")
+          if message.content then 
+            write_log("OUTPUT: " .. message.content)
+            on_final(message.content or "")
+          end
+          on_cleanup()
         end
       end)
     end
@@ -282,7 +268,7 @@ function M.show_logs()
 end
 
 function M.rewrite_selection()
- local mode = vim.fn.visualmode()
+  local mode = vim.fn.visualmode()
   vim.cmd("noautocmd normal! \27")
 
   local start_pos = vim.fn.getpos("'<")
@@ -302,30 +288,29 @@ function M.rewrite_selection()
 
   if mode == "V" then
     start_col = 0
-    local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line, end_line + 1, false)[1] or ""
+    local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line - 1, end_line, false)[1] or ""
     end_col = #end_line_text
   else
-    local start_line_text = vim.api.nvim_buf_get_lines(bufnr, start_line, start_line + 1, false)[1] or ""
-    local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line, end_line + 1, false)[1] or ""
+    local start_line_text = vim.api.nvim_buf_get_lines(bufnr, start_line - 1, start_line, false)[1] or ""
+    local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line - 1, end_line, false)[1] or ""
 
-    start_col = math.max(0, math.min(start_col, #start_line_text))
+    start_col = math.max(0, math.min(start_col - 1, #start_line_text))
     end_col = math.max(0, math.min(end_col, #end_line_text))
   end
 
-  local lines = vim.api.nvim_buf_get_text(bufnr, start_line, start_col, end_line, end_col, {})
+  local lines = vim.api.nvim_buf_get_text(bufnr, start_line - 1, start_col, end_line - 1, end_col, {})
   local selected_text = table.concat(lines, "\n")
 
   local ns = vim.api.nvim_create_namespace("llm_rewrite")
-  local ext_id = vim.api.nvim_buf_set_extmark(bufnr, ns, start_line, start_col, {
-    end_line = end_line,
+  local ext_id = vim.api.nvim_buf_set_extmark(bufnr, ns, start_line - 1, start_col, {
+    end_line = end_line - 1,
     end_col = end_col,
+    sign_text = "  ",
+    sign_hl_group = ensure_hl_group(vim.g.terminal_color_4),
   })
-  add_visual_marker(start_line, end_line, vim.g.terminal_color_4)
-
   vim.ui.input({ prompt = "LLM Edit Instruction: " }, function(instruction)
     if not instruction or instruction == "" then
-      vim.api.nvim_buf_del_extmark(bufnr, ns, ext_id)
-      remove_visual_marker(start_line - 1, end_line)
+      pcall(vim.api.nvim_buf_del_extmark, bufnr, ns, ext_id)
       return
     end
 
@@ -338,8 +323,6 @@ function M.rewrite_selection()
     local messages = create_prompt(bufnr, instruction, selected_text)
 
     perform_request(messages, 0, function(result_text)
-      pcall(vim.api.nvim_buf_del_extmark, bufnr, instruction_ns, instr_ext_id)
-
       result_text = clean_markdown(result_text)
 
       local mark = vim.api.nvim_buf_get_extmark_by_id(bufnr, ns, ext_id, { details = true })
@@ -347,11 +330,14 @@ function M.rewrite_selection()
         local new_start_line, new_start_col = mark[1], mark[2]
         local new_end_line = mark[3].end_row
         local new_end_col = mark[3].end_col
-        remove_visual_marker(new_start_line, new_end_line)
 
         local new_lines = vim.split(result_text, "\n", { plain = true })
         vim.api.nvim_buf_set_text(bufnr, new_start_line, new_start_col, new_end_line, new_end_col, new_lines)
       end
+    end,
+    function ()
+      pcall(vim.api.nvim_buf_del_extmark, bufnr, instruction_ns, instr_ext_id)
+      pcall(vim.api.nvim_buf_del_extmark, bufnr, ns, ext_id)
     end)
   end)
 end
