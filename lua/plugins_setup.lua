@@ -24,4 +24,10 @@ vim.pack.add({
     gh('nvim-treesitter/nvim-treesitter-textobjects'),
     gh('stevearc/oil.nvim'),
 })
+vim.api.nvim_create_user_command('Packu', function()
+  vim.pack.update()
+end, {})
+vim.api.nvim_create_user_command('Packupdate', function()
+  vim.pack.update()
+end, {})
 return true
