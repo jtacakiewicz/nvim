@@ -25,9 +25,16 @@ vim.pack.add({
     gh('stevearc/oil.nvim'),
 })
 vim.api.nvim_create_user_command('Packu', function()
-  vim.pack.update()
+    vim.pack.update()
 end, {})
 vim.api.nvim_create_user_command('Packupdate', function()
-  vim.pack.update()
+    vim.pack.update()
 end, {})
+vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
+    local name, kind = ev.data.spec.name, ev.data.kind
+    if name == 'nvim-treesitter' and kind == 'update' then
+        if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+        vim.cmd('TSUpdate')
+    end
+end })
 return true
