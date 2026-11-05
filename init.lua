@@ -15,6 +15,7 @@ require("plugins.snip")
 require("plugins.cmp")
 require("plugins.tmux")
 require("plugins.oil")
+require("plugins.gitsigns")
 require("plugins.nvim-surround")
 
 require("scripts.lsp")
