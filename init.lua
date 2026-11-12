@@ -12,7 +12,6 @@ end
 
 require("plugins.tree-sitter")
 require("plugins.snip")
-require("plugins.cmp")
 require("plugins.tmux")
 require("plugins.oil")
 require("plugins.gitsigns")

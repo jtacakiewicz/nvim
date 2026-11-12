@@ -139,7 +139,7 @@ local function clean_markdown(text)
   return text
 end
 
-local MAX_TOOL_CALLS = 5
+local MAX_TOOL_CALLS = 10
 
 local function run_tool_command(cmd)
   local obj = vim.system(cmd, { text = true }):wait()

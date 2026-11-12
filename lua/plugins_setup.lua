@@ -10,7 +10,6 @@ vim.pack.add({
     gh('tpope/vim-sleuth'),
     gh('kyazdani42/nvim-web-devicons'),
     gh('kylechui/nvim-surround'),
-    gh('hrsh7th/nvim-cmp'),
     gh('neovim/nvim-lspconfig'),
     gh('L3MON4D3/LuaSnip'),
     gh('rafamadriz/friendly-snippets'),

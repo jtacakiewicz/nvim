@@ -76,9 +76,30 @@ vim.keymap.set("n", "<leader>sd", show_diagnostics, { desc = "show diagnostics"}
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
-        -- Enable completion triggered by <c-x><c-o>
-        --vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-        --fix cmp for commands
+
+        vim.keymap.set("i", "<C-f>", function()
+            if vim.fn.pumvisible() == 1 then
+                if vim.fn.complete_info({"selected"}).selected == -1 then
+                    return "<C-n><C-y>"
+                else
+                    return "<C-y>"
+                end
+            else
+                if vim.snippet.active({ direction = 1 }) then
+                    return "<cmd>lua vim.snippet.jump(1)<cr>"
+                else
+                    return "<C-f>"
+                end
+            end
+        end, { expr = true, silent = true })
+        vim.keymap.set("i", "<C-l>", function()
+            if vim.fn.pumvisible() == 1 then
+                return "<C-x><C-x>"
+            else
+                return "<C-x><C-o>"
+            end
+        end, { expr = true, silent = true })
+
         keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
 
         -- Buffer local mappings.
